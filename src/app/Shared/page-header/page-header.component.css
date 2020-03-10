@@ -1,0 +1,8 @@
+.fa-spin-hover:hover {
+    animation: fa-spin 2s infinite linear;
+  }
+  .dropdown-menu {
+    font-size: 12px;
+    padding-left: 5%;
+    padding-right: 5%;
+  }

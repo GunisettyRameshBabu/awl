@@ -1,0 +1,19 @@
+
+
+  ul {
+    list-style-type: none; /* Remove bullets */
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margins */
+  }
+  
+  ul li {
+   
+    margin-top: -1px; /* Prevent double borders */
+    background-color : white; /* Add a grey background color */
+    padding: 12px; /* Add some padding */
+  }
+
+  ul li:hover {
+    background-color: lightgray;
+  }
+  

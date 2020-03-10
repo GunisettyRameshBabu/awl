@@ -1,0 +1,74 @@
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xsm-12 card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4 col-lg-4 col-sm-12 col-xsm-12">
+                    <p><a [routerLink]="['']">Automated Waiting List Public Functions</a></p>
+                </div>
+                <div class="page-header-title col-md-4 col-lg-4 col-sm-12 col-xsm-12" id="subtitle" *ngIf="title">
+                    <i [class]="icon"></i>
+                    {{ title }}
+                    <div>
+                        <small style="padding-left:20px;font-family:'ArialMT', 'Arial';font-size:14px;">{{ description }}</small>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2 col-sm-12 col-xsm-12" *ngIf="project">
+                    <div ngbDropdown class="d-inline-block">
+                        <button class="btn btn-outline-secondary dropdown-toggle" id="dropdownBasic1" ngbDropdownToggle>
+                            {{ project.projectName }}
+                            <i class="fa fa-cog fa-spin-hover"></i>&nbsp;&nbsp;<span class="fa fa-caret-down"></span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                            <strong> WAITING LISTS</strong>
+                            <a ngbDropdownItem *ngIf="project.studioWaitList > 0"
+                                  [routerLink]="['','projects',project.hid,'waitlist','bedrooms',0,'admissions']" >
+                                <i class="fa fa-fw fa-angle-right hvr-grow"></i>
+                                Studio
+                                <span class="font-xs">({{ project.studioWaitList }})</span>
+                            </a>                                
+                            <a ngbDropdownItem *ngIf="project.oneBedroomWaitList > 0"
+                                [routerLink]="['','projects',project.hid,'waitlist','bedrooms',1,'admissions']" >
+                                <i class="fa fa-fw fa-angle-right hvr-grow"></i>
+                                1 Bedroom 
+                                <span class="font-xs">({{ project.oneBedroomWaitList }})</span>
+                            </a>
+                            <a ngbDropdownItem *ngIf="project.twoBedroomWaitList > 0"
+                                [routerLink]="['','projects',project.hid,'waitlist','bedrooms',2,'admissions']">
+                                <i class="fa fa-fw fa-angle-right hvr-grow"></i>
+                                2 Bedroom
+                                <span class="font-xs">({{ project.twoBedroomWaitList }})</span>
+                            </a>
+                            <a ngbDropdownItem *ngIf="project.threeBedroomWaitList > 0"
+                                [routerLink]="['','projects',project.hid,'waitlist','bedrooms',3,'admissions']">
+                                <i class="fa fa-fw fa-angle-right hvr-grow"></i>
+                                3 Bedroom
+                                <span class="font-xs">({{ project.threeBedroomWaitList }})</span>
+                            </a>
+                            <a ngbDropdownItem *ngIf="project.fourBedroomWaitList > 0"
+                                [routerLink]="['','projects',project.hid,'waitlist','bedrooms',4,'admissions']">
+                                <i class="fa fa-fw fa-angle-right hvr-grow"></i>
+                                4 Bedroom
+                                <span class="font-xs">({{ project.fourBedroomWaitList }})</span>
+                            </a>
+                            <a ngbDropdownItem *ngIf="project.fiveBedroomWaitList > 0"
+                                [routerLink]="['','projects',project.hid,'waitlist','bedrooms',6,'admissions']">
+                                <i class="fa fa-fw fa-angle-right hvr-grow"></i>
+                                5 Bedroom
+                                <span class="font-xs">({{ project.fiveBedroomWaitList }})</span>
+                            </a>  
+                            <div class="dropdown-divider" *ngIf="showUpdateContact"></div>
+                            <a *ngIf="showUpdateContact" ngbDropdownItem [routerLink]="['','projects',project.hid,'applications','contact','edit']" >
+                                <i class="far fa-address-card fa-fw hvr-grow"></i>
+                                Update contact info
+                            </a>
+                        </div>                              
+                        </div>
+                        
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

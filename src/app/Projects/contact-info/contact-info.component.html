@@ -1,0 +1,412 @@
+<app-page-header  [project]="project"  [title]="'Contact Information'"  [description]="'Update Contact Information'"
+  [icon]="'fa fa-info-circle'"   [showUpdateContact]="false">
+</app-page-header>
+<div class="row">
+  <div class="col-md-12 col-lg-12">
+    <app-alert></app-alert>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-4 col-lg-4">
+    <div id="rspupdnote">
+      <a [routerLink]="" (click)="showNote = !showNote" style="cursor:pointer;font-family:'ArialMT', 'Arial';font-weight:400;font-size:14px;" 
+      aria-expanded="false" data-target="#rspupdnoteInfo" data-toggle="collapse">
+        <i class="fa fa fa-info-circle" id="Note"></i>
+        Please Note </a
+      ><br />
+    </div>
+    <div id="rspupdnoteInfo" *ngIf="showNote">
+      <div id="UpdateNoteInfo" style="font-family:'ArialMT', 'Arial';" class="form-inline">
+        <div id="NoteInfo" style="font-family:'ArialMT', 'Arial';">
+          This form can only be used by Admission <br />applicants.Transfer
+          applicants must contact <br />Housing Development directly.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+<div *ngIf="step == 1" class="col-md-8 col-lg-8" style="padding: 10px;">
+    <form [formGroup]="contactForm" (ngSubmit)="validateApplicant()">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  card" style="padding: 20px;">
+          <div class="card-body-responsive">
+            <div class="row">
+              <div class="col-lg-10 col-sm-12 col-xs-12">
+                <p>
+                  <span style="font-weight:700;color:grey;">
+                    Verify Head/Co-Head of Household
+                    </span>
+                </p>
+              </div>
+            </div>
+            <div class="row" style="min-height: 20px;"></div>
+            <div class="row">
+              <!-- <div class="col-md-1 col-sm-12 col-xs-12"></div> -->
+              <div class="col-md-4 col-sm-12 col-xs-12" style="padding: 20px;">
+               <p>  <label class="control-label m-l-n-xs font-bold">
+                Development:
+                </label>
+              <br />
+              <span> {{ project.projectName }}</span></p>
+               
+              </div>
+              <div [class]="submitted && f.ApplicationNumber.errors? 'col-md-4 col-sm-12 col-xs-12 error text-danger': 'col-md-4 col-sm-12 col-xs-12' ">
+                <label for="ApplicationNumber" class="control-label m-l-n-xs font-bold" id="chng0">
+                  Application Number:
+                  </label>
+                <input id="ApplicationNumber" *ngIf="!applicationNumberExist" name="ApplicationNumber" type="text" [class]="submitted && f.ApplicationNumber.errors? 'is-invalid  form-control' : 'form-control'" formControlName="ApplicationNumber"/>
+                <span *ngIf="applicationNumberExist"><br />{{ f.ApplicationNumber.value }}</span>
+                <div *ngIf="submitted && f.ApplicationNumber.errors" class="danger">
+                  <div *ngIf="f.ApplicationNumber.errors.required" class="danger">
+                    This field is required.
+                  </div>
+                  <div *ngIf="f.ApplicationNumber.errors.maxlength" class="danger">
+                    Maximum length exceeded.
+                  </div>
+                  <div *ngIf="f.ApplicationNumber.errors.pattern" class="danger">
+                    Not a valid name.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 card">
+          <div class="card-body-responsive">
+            <div class="row">
+              <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12" style="padding: 20px;">
+                <p>
+                  <span style="font-weight:700;color:grey;">
+                    Head of Household or Co-Head of Household
+                  </span>
+                </p>
+              </div>
+            </div>
+            <div class="row">
+             
+              <div style="padding-left: 20px;"  [class]="submitted && f.FirstName.errors ? 'col-md-4 col-sm-12 col-xs-12 error text-danger' : 'col-md-4 col-sm-12 col-xs-12' " >
+               <label for="FirstName" class="control-label m-l-n-xs font-bold">
+                  First Name:
+                  </label>
+              
+                <input id="FirstName" name="FirstName" type="text" [class]="submitted && f.FirstName.errors? 'is-invalid  form-control' : 'form-control'" formControlName="FirstName"/>
+                <div *ngIf="submitted && f.FirstName.errors" class="danger">
+                  <div *ngIf="f.FirstName.errors.required" class="danger">
+                    This field is required.
+                  </div>
+                  <div *ngIf="f.FirstName.errors.maxlength" class="danger">
+                    Maximum length exceeded.
+                  </div>
+                  <div *ngIf="f.FirstName.errors.pattern" class="danger">
+                    Not a valid name.
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="col-md-2 col-sm-12 col-xs-12"></div> -->
+              <div style="padding-left: 20px;" [class]="submitted && f.LastName.errors ? 'col-md-4 col-sm-12 col-xs-12 error text-danger' : ' col-md-4 col-sm-12 col-xs-12 '">
+                <label for="LastName" class="control-label m-l-n-xs font-bold">
+                  Last Name:
+                  </label>
+                <input id="LastName" name="LastName" type="text" [class]="submitted && f.LastName.errors? 'is-invalid  form-control' : 'form-control'" formControlName="LastName"/>
+                <div *ngIf="submitted && f.LastName.errors" class="danger">
+                  <div *ngIf="f.LastName.errors.required" class="danger">
+                    This field is required.
+                  </div>
+                  <div *ngIf="f.LastName.errors.maxlength" class="danger">
+                    Maximum length exceeded.
+                  </div>
+                  <div *ngIf="f.LastName.errors.pattern" class="danger">
+                    Not a valid name.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row" style="min-height: 20px;;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="row ">
+        <div class="card col-md-12 col-lg-12 col-sm-12 col-xs-12" style="padding: 20px;">
+          <div class="card-body">
+            <button class="btn btn-secondary btn-sharp pull-left " type="button" (click)="clickedCancel()">
+              Cancel
+            </button>
+            <button class="btn  btn-primary btn-sharp " style="float: right;" type="submit">
+              <span *ngIf="verifying">
+                Validating
+                <i class="fa fa-refresh fa-spin m-l-xs"></i>
+              </span>
+              <span *ngIf="!verifying">
+                Validate
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+  <div *ngIf="step == 2" class="col-md-8 col-lg-8 col-sm-12 col-xs-12" style="padding: 10px;">
+    <div class="card">
+      <div class="card-body">
+      <form [formGroup]="contactForm2" (ngSubmit)="saveChanges()">
+        <div class="alert alert-info" role="alert">
+          <ul class="fa-ul">
+            <li>
+              <i class="fa fa-info-circle fa-lg fa-li"></i>
+              <span class="font-bold h5">Please Note</span>
+              <div>
+                Only address and telephone number changes can be submitted
+                with this form. Changes to other information, such as family
+                composition, must be submitted to the Housing Development in
+                writing.
+              </div>
+              <span class="text-info" style="color:white">-> Update Contact Information</span>
+            </li>
+          </ul>
+        </div>
+        <div class="row">
+          <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+            <label class="control-label font-bold " >Development:</label>
+            
+          </div>
+          <div class=" col-md-3 col-lg-3 col-sm-12 col-xs-12 form-control-static" style="color:black">
+            {{ project.projectName }}
+          </div>
+        </div>
+        
+        <div class="row" style="min-height: 20px;"></div>
+        <div class="row">
+          <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+            <label class="control-label font-bold ">Application Number:</label>
+            
+          </div>
+          <div class=" col-md-3 col-lg-3 col-sm-12 col-xs-12 form-control-static" style="color:black">
+            {{ contact.applicationNumber }}
+          </div>
+        </div>
+        
+        <div class="row" style="min-height: 20px;"></div>
+         <div class="row">
+          <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+            <label class="control-label m-l-n-xs font-bold ">
+              First Name:
+              </label>
+           
+          </div>
+          <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12 form-control-static">{{ contact.firstName }}</div>
+         </div> 
+         
+         <div class="row" style="min-height: 20px;"></div>
+       <div class="row">
+        <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+          <label class="control-label font-bold ">Last Name:</label>
+          
+        </div>
+        <div class=" col-md-3 col-lg-3 col-sm-12 col-xs-12 form-control-static">{{ contact.lastName }}</div>
+       </div>
+
+       <div class="row" style="min-height: 20px;"></div>
+        <div [class]="submitted && f2.EmailAddress.errors ? 'row error text-danger' : 'row'">
+          <div class="col-md-3 col-lg-3">
+            <label for="EmailAddress" class="control-label font-bold ">
+              Email Address:
+              </label>
+          </div>
+         
+          <div class="col-md-3 col-lg-3">
+            <input id="EmailAddress" name="EmailAddress" type="email" class="form-control" formControlName="EmailAddress"/>
+            <div class="help-block hidden-print" *ngIf="submitted && f2.EmailAddress.errors">
+              <div *ngIf="f2.EmailAddress.errors.required" class="danger">
+                This field is required.
+              </div>
+              <div *ngIf="f2.EmailAddress.errors.email" class="danger">
+                Not a valid email address.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="min-height: 20px;"></div>
+        <div [class]="submitted && f2.ConfirmEmailAddress.errors? 'row error text-danger': 'row'">
+         <div class="col-md-3 col-lg-3">
+          <label for="ConfirmEmailAddress" class="control-label font-bold ">
+            Retype Email Address:
+            </label>
+         </div>
+          <div class="col-md-3 col-lg-3">
+            <input id="ConfirmEmailAddress" name="ConfirmEmailAddress" type="email" class="form-control" formControlName="ConfirmEmailAddress"/>
+            <div class="help-block hidden-print col-sm-offset-4" *ngIf="submitted && f2.ConfirmEmailAddress.errors">
+              <div *ngIf="f2.ConfirmEmailAddress.errors.required" class="danger">
+                This field is required.
+              </div>
+              <div *ngIf="f2.ConfirmEmailAddress.errors.email" class="danger">
+                Not a valid email address.
+              </div>
+              <div *ngIf="f2.ConfirmEmailAddress.errors.notSame" class="danger">
+                Email addresses do not match.
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        <div class="row" style="min-height: 20px;"></div>
+        <div [class]="(submitted && f2.Address.errors) || uspsValid == false? 'row error text-danger': uspsValid == true? 'row success text-success': 'row'">
+         <div class="col-md-3 col-lg-3">
+          <label for="Address" class="control-label font-bold "
+          >Mailing Address:</label>
+         </div>
+         
+          <div class="col-md-3 col-lg-3">
+            <textarea id="Address" name="Address" formControlName="Address" rows="4" [class]="submitted && f2.Address.errors ? 'is-invalid  form-control' : 'form-control'"></textarea>
+            <div class="help-block " *ngIf="uspsValid">
+              <i class="fa fa-check-circle"></i>
+              USPS address confirmed
+            </div>
+            <div  *ngIf="uspsValid == false">
+              <div>Not a valid USPS address.</div>
+            </div>
+            <div class="help-block hidden-print " *ngIf="submitted && f2.Address.errors">
+              <div *ngIf="f2.Address.errors.required">
+                This field is required.
+              </div>
+              <div *ngIf="f2.Address.errors.liveaddress">
+                Not a valid USPS address.
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        <div class="row" style="min-height: 20px;"></div>
+        <div [class]="submitted && f2.Phone1.errors ? 'row error text-danger' : 'row'" >
+          <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+            <label for="Phone1" class="control-label font-bold ">
+              Phone Number:
+              </label>
+          </div>
+         
+          <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+            <div class="input-group"><input id="Phone1" name="Phone1" type="text" class="form-control" formControlName="Phone1" placeholder="(___) ___-___" appPhoneMask/>
+              <span class="input-group-addon" align="center">
+                <i class="fa fa-phone-alt"></i>
+              </span></div>
+            
+          </div>
+        </div>
+        <div class="row" style="min-height: 20px;"></div>
+        <div [class]="submitted && f2.Phone2.errors ? 'row error text-danger' : 'row'">
+          <div class="col-md-3 col-lg-3">
+            <label for="Phone2" class="control-label font-bold ">
+              Phone Number:</label>
+          </div>
+         
+          <div class="col-md-3 col-lg-3">
+            <div class="input-group">
+              <input id="Phone2" name="Phone2" type="tel" class="form-control" formControlName="Phone1" placeholder="(___) ___-____" appPhoneMask/>
+              <span class="input-group-addon" align="center">
+                <i class="fa fa-phone-alt"></i>
+              </span>
+            </div>
+           
+          </div>
+          
+        </div>
+        <div class="row">
+          <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12" ></div>
+          <div class="col-md-9 col-lg-9 col-sm-12 col-xs-12 help-block" >
+            If you have a phone number please enter it. Leaving these fields
+            blank will erase existing phone numbers currently on file.
+          </div>
+        </div>
+        <div class="row" style="min-height: 20px;"></div>
+        <div class="row">
+          <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12"></div>
+          <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+            <button class="btn btn-secondary btn-sharp " type="button" (click)="clickedCancel()">
+              Cancel
+            </button> &nbsp;
+            <button class="btn btn-primary" type="submit">
+              Save changes
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    </div>
+      
+    
+  </div>
+
+
+  <div *ngIf="step == 3" class="col-md-8 col-lg-8 col-sm-12 col-xs-12" style="padding: 10px;">
+    <div class="alert alert-success" role="alert">
+      <ul class="fa-ul">
+        <li>
+          <i class="fa fa-info-check fa-lg fa-li"></i>
+          <span class="font-bold h5">Success</span>
+          <p>
+            Please print this page for your records. Changes are pending Housing
+            Development review.
+          </p>
+          <p>
+            The Housing Development has the right to accept or reject the
+            submitted change. You should receive an email notifying you of their
+            decision within two weeks. If you do not receive an email or if your
+            online update is rejected, you must contact them directly.
+          </p>
+        </li>
+      </ul>
+    </div>
+    <div class="row m-b-md">
+      <div class="col-sm-4 col-sm-12 col-xs-12 font-bold">Confirmation Number:</div>
+      <div class="col-sm-8 col-sm-12 col-xs-12 text-success">{{ contact.confirmationNumber }}</div>
+    </div>
+    <div class="row m-b-md">
+      <div class="col-sm-4 col-sm-12 col-xs-12 font-bold">Date Submitted:</div>
+      <div class="col-sm-8 col-sm-12 col-xs-12">
+        {{ contact.dateSubmitted | date: "MM/dd/yyyy" }}
+      </div>
+    </div>
+    <div class="row m-b-md">
+      <div class="col-sm-4 col-sm-12 col-xs-12 font-bold">Development:</div>
+      <div class="col-sm-8 col-sm-12 col-xs-12">{{ project.projectName }}</div>
+    </div>
+    <div class="row m-b-md">
+      <div class="col-sm-4 col-sm-12 col-xs-12 font-bold">Application Number:</div>
+      <div class="col-sm-8">{{ contact.applicationNumber }}</div>
+    </div>
+    <div class="row m-b-md">
+      <div class="col-sm-4 col-sm-12 col-xs-12 font-bold">First Name:</div>
+      <div class="col-sm-8 col-sm-12 col-xs-12">{{ contact.firstName }}</div>
+    </div>
+    <div class="row m-b-md">
+      <div class="col-sm-4 col-sm-12 col-xs-12 font-bold">Last Name:</div>
+      <div class="col-sm-8 col-sm-12 col-xs-12">{{ contact.lastName }}</div>
+    </div>
+    <div class="row m-b-md">
+      <div class="col-sm-4 col-sm-12 col-xs-12 font-bold">Email Address:</div>
+      <div class="col-sm-8 col-sm-12 col-xs-12">{{ contact.emailAddress }}</div>
+    </div>
+    <div class="row m-b-md">
+      <div class="col-sm-4 col-sm-12 col-xs-12 font-bold">Mailing Address:</div>
+      <div class="col-sm-8 col-sm-12 col-xs-12">
+        {{ contact.addressLine1 }}<br />
+        <span ng-if="contact.addressLine2"
+          >{{ contact.addressLine2 }}<br
+        /></span>
+        {{ contact.city }}, {{ contact.state }} {{ contact.zipCode }}
+      </div>
+    </div>
+    <div class="row m-b-md" ng-if="contact.phone1">
+      <div class="col-sm-4 col-sm-12 col-xs-12 font-bold">Phone Number:</div>
+      <div class="col-sm-8 col-sm-12 col-xs-12">{{ contact.phone1 | usPhoneNumber: false }}</div>
+    </div>
+    <div class="row m-b-md" ng-if="contact.phone2">
+      <div class="col-sm-4 col-sm-12 col-xs-12 font-bold">Phone Number:</div>
+      <div class="col-sm-8 col-sm-12 col-xs-12">{{ contact.phone2 | usPhoneNumber: false }}</div>
+    </div>
+  </div>
+</div>

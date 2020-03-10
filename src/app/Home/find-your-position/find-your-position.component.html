@@ -1,0 +1,57 @@
+<div class="modal-header  modal-title-background">
+        <h4 class="col-11 modal-title text-center">Find an application</h4>
+        <button type="button" class="close" aria-describedby="modal-title" (click)="cancel()">
+            <span aria-hidden="true">&times;</span> 
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="control-label m-l-lg" id="devl">Development:</label>
+                    <div class="form-control-static m-l-lg" id="prjn">
+                        {{ projectName }}
+                    </div>
+                </div>
+                <div style="border-bottom:1px solid #e5e5e5" class="m-l-n m-r-n"></div>
+                <div class="m-t-sm"></div>
+                <div class="form-group" ngClass="{'has-error' : noResults}">
+                    <label for="ApplicationNumber" class="control-label m-l-lg" id="appn">Application
+                        Number:</label>
+                    <div class="p-xxs "></div>
+                    <div class="form-inline">
+                        <div class="input-group m-l-lg">
+                            <!-- <input type="text" id="ApplicationNumber" e-required autocomplete="off"
+                                        [(ngModel)]="applicationNumber" (ngModelChange)="getApplications()"> -->
+                            <input type="text" [(ngModel)]="applicationNumber"
+                                (ngModelChange)="getApplications(true)" />
+                            <div class="floatingDropDown" style="position: absolute; margin-top: 35px;width:200px;max-height: 250px;overflow-y: auto;"
+                                id="id" *ngIf="applications">
+                                <ul style="list-style: none;padding: 7px;margin:3px;">
+                                    <li (click)="onItemClick(item.applicationNumber)"
+                                        style="cursor:pointer;line-height: 20px;" *ngFor="let item of applications">
+                                        {{item.applicationNumber}}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-left: 15px;">
+                            <i [hidden]="!loadingApplications" class="fa fa-sync-alt fa-spin"></i>
+                        </div>
+                    </div>
+                    <div [hidden]="!noResults" class="help-block hidden-print col-sm-offset-4">
+                            <i class="fa fa-remove" style="color:red"></i> No Results Found
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-secondary btn-sharp "  (click)="cancel()">
+            Cancel
+        </button>
+        <button type="button" class="btn btn-primary btn-sharp" (click)="ok()" >            
+              Search                   
+        </button>
+    </div>
+

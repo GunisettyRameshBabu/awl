@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="col-md-7 col-sm-5 col-xs-5">
+        <input type="text" class="form-control" [(ngModel)]="applicationNumber" (ngModelChange)="getApplications(true)" /> 
+        
+        <div class="floatingDropDown" style="position: absolute;width:200px;max-height: 250px;overflow-y: auto; margin-top: 10px;"
+            id="id" *ngIf="applications">
+            <ul style="max-height: 338px;list-style: none;padding: 7px;margin:3px;">
+                <li (click)="onItemClick(item.applicationNumber)"
+                    style="cursor:pointer;line-height: 20px;" *ngFor="let item of applications">
+                    {{item.applicationNumber}}</li>
+            </ul>
+        </div>
+    </div>
+    <div *ngIf="loadingApplications" class="col-md-1 col-sm-1 col-xs-1">
+        <i  class="fa fa-sync-alt fa-spin"></i>
+    </div>
+    <div class="col-md-2 col-sm-2 col-xs-2">
+        <button class="btn btn-secondary" (click)="changeApplication()"><i class="fa fa-check"></i></button>
+    </div>
+    <div class="col-md-2 col-sm-2 col-xs-2">
+            <button class="btn btn-light" (click)="cancelApplication()"><i class="fa fa-trash"></i></button>
+    </div>
+</div>

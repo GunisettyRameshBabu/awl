@@ -1,0 +1,4 @@
+<app-router-overlay-spinner *ngIf="isRouterOverlaySpinnerVisible"></app-router-overlay-spinner>
+<app-http-overlay-spinner *ngIf="isHttpOverlaySpinnerVisible"></app-http-overlay-spinner>
+
+<router-outlet *ngIf="!isHttpOverlaySpinnerVisible && !isRouterOverlaySpinnerVisible"></router-outlet>

@@ -1,0 +1,28 @@
+<div class="modal-header bg-warning font-14 modal-title-background">
+  <h5 class="modal-title" [innerHTML]="title"></h5>
+</div>
+<div class="modal-body text-center font-14">
+  <div class="m-b-10">
+    {{ body }}
+  </div>
+
+  <div class="modal-footer">
+      <button
+      type="button"
+      class="btn btn-secondary btn-sharp pull-left"
+      style="float: left;"
+      (click)="closeModal(false)"
+    >
+      Cancel
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary  pull-right"
+      style="float: right;"
+      (click)="closeModal(true)"
+    >
+      OK
+    </button>
+   
+  </div>
+</div>

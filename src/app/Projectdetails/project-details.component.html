@@ -1,0 +1,101 @@
+<div class="modal-header title-center " >
+  <h4 class="col-11 modal-title text-center">Development Details</h4>
+  <button type="button" class="close" aria-describedby="modal-title" (click)="cancel()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body" style="margin:0 15px !important;">
+  <div class="row">
+    <div class="col-sm-4 col-xs-12 col-xl-4 col-md-4">
+      <span class="h5 m-b-md " style="font-size:17px;"><strong>{{ selectedProject.projectName }}</strong><br /></span><br />
+      <div class="font-bold" style="font-size:15px;">Management Office:</div>
+      <address class="m-b-sm">
+        <div>{{ selectedProject.contactCompany }}</div>
+        <div [hidden]="!selectedProject.contactAddress1">
+          {{selectedProject.contactAddress1}}
+        </div>
+        <div [hidden]="!selectedProject.contactAddress2">
+          {{selectedProject.contactAddress2}}
+        </div>
+        {{selectedProject.contactCity}} , {{selectedProject.contactState}}  {{selectedProject.contactZipCode}}
+        <div [hidden]="!selectedProject.contactPhoneNumber">
+          <i class="fa fa-phone txt-color-blue"></i>
+          {{(selectedProject.contactPhoneNumber | usPhoneNumber: false )}}
+          <span [hidden]="!selectedProject.contactPhoneExtension">x{{selectedProject.contactPhoneExtension}}</span>
+        </div>
+      </address>
+      <div class="font-bold " style="font-size:15px;">Type:</div>
+      <div class="m-b-sm">
+        {{ selectedProject.tenantType }}, {{ selectedProject.projectType }}<span *ngIf="selectedProject.isSection8">,
+          Section 8</span><span [hidden]="!selectedProject.isSection236">, Section 236</span>
+      </div><br />
+      <div class="font-bold " style="font-size:15px;">Status:</div>
+      <div class="m-b-sm">
+        {{ selectedProject.waitListStatus }}
+      </div><br />
+      <div class="font-bold  form-inline" style="font-size:15px;">Apartments:</div>
+      <dl *ngIf="selectedProject.studioCount > 0">
+        <span class="text-success" >{{ selectedProject.studioCount }}</span>&nbsp;
+        <span>Studio</span>
+      </dl>
+      <dl *ngIf="selectedProject.oneBedroomCount > 0">
+        <span class="text-success">{{ selectedProject.oneBedroomCount }}</span>&nbsp;
+        <span>One Bedroom</span>
+      </dl>
+      <dl *ngIf="selectedProject.twoBedroomCount > 0">
+        <span class="text-success">{{ selectedProject.twoBedroomCount }}</span>&nbsp;
+        <span>Two Bedroom</span>
+      </dl>
+      <dl *ngIf="selectedProject.threeBedroomCount > 0">
+        <span class="text-success">{{ selectedProject.threeBedroomCount }}</span>&nbsp;
+        <span>Three Bedroom</span>
+      </dl>
+      <dl *ngIf="selectedProject.fourBedroomCount > 0">
+        <span class="text-success">{{ selectedProject.fourBedroomCount }}</span>&nbsp;
+        <span>Four Bedroom</span>
+      </dl>
+      <dl *ngIf="selectedProject.fiveBedroomCount > 0">
+        <span class="text-success">{{ selectedProject.fiveBedroomCount }}</span>&nbsp;
+        <span>Five Bedroom</span>
+      </dl>
+    </div>
+    <div class="col-sm-8 col-xs-12 col-xl-8 col-md-8" style="padding: 0; border: 1px">
+      <agm-map 
+      #agmMap 
+      [latitude]="location?.lat" 
+      [longitude]="location?.lng" 
+      [zoom]="8"
+      [maxZoom]="17"
+      [styles]="customStyle"
+      [fitBounds]="true" 
+      [clickableIcons]="false"
+      [fullscreenControl]="true" 
+      [streetViewControl]="true" 
+      [mapTypeControl]="true"
+      [fullscreenControl]="true"
+      [zoomControl]="mapControls"
+      style="height: 500px; width: 100%;" >
+        <agm-marker  [latitude]="location?.lat" [longitude]="location?.lng" [markerDraggable]="false" [agmFitBounds]="true"  >
+          <agm-info-window>
+            <div class="gm-style-iw ">
+              <div class="poi-info-window gm-style">
+                <div class="title full-width ">
+                  {{ selectedProject.projectName }}
+                </div>
+                <div class="address">
+                  <div class="address-line full-width">
+                    {{ selectedProject.projectAddress2 }}
+                  </div>
+                  <div class="address-line full-width">
+                    {{selectedProject.projectAddress1}}<br />
+                    {{selectedProject.projectCity}}, NY {{selectedProject.projectZipCode}}
+                  </div>
+                </div>   
+              </div>
+            </div>
+          </agm-info-window>
+        </agm-marker>
+      </agm-map>
+    </div>
+  </div>
+</div>

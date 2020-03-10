@@ -1,0 +1,126 @@
+<app-page-header [title]="'Waiting List'" [description]="'Use search view to show search functionality.'"
+    [project]="project"></app-page-header>
+
+<div class="row">
+    <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12 ">
+       <div class="card">
+        <div class="card-body">
+            <div style="font-family:'ArialMT', 'Arial';font-weight:400;font-size:14px;" id="rspfltrnote">
+                <a (click)="showFilter = !showFilter" style="cursor:pointer;">
+                    <i class="fa fa-caret-down" id="Note"></i>
+                    Filters
+                </a><br />
+                <small id="filtermsg" style="font-family:'ArialMT', 'Arial';font-size:12px;">Filter applications based on options below.</small>
+            </div>
+            <div id="rspfltrnoteInfo" *ngIf="showFilter" [@hideShowAnimator]="showFilter">
+                <div id="FilterNoteInfo">
+                    <div class="form-group">
+                        <label class="control-label font-bold"><strong>Apartment Size:</strong></label>
+                        <div class="input-group">
+                            <div ngbDropdown class="d-inline-block" style="width: 100%;">
+                                <button class="btn btn-outline-primary" id="sortMenu" ngbDropdownToggle>
+                                    {{ bedroomSizes[aptSize].name }} 
+                                    <span class="fa fa-caret-down"></span></button>
+                                <div ngbDropdownMenu aria-labelledby="sortMenu">
+                                    <button ngbDropdownItem *ngFor="let b of bedroomSizes" (click)="aptSize = b.id">{{b.name}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label font-bold"><strong>Application Type:</strong></label>
+                        <div>
+                            <div class="radio radio-primary">
+                                <input type="radio" name="Type" id="Admissions" value="Admissions"
+                                    [(ngModel)]="applicationType">
+                                <label for="Admissions">
+                                    Admissions
+                                </label>
+                            </div>
+                            <div class="radio radio-primary">
+                                <input type="radio" name="Type" id="Transfer" value="Transfer"
+                                    [(ngModel)]="applicationType">
+                                <label for="Transfer">
+                                    Transfer
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label font-bold"><strong>Options:</strong></label>
+                        <div>
+                            <div class="checkbox checkbox-primary">
+                                <input id="Senior" type="checkbox" [(ngModel)]="senior">
+                                <label for="Senior">
+                                    Senior
+                                </label>
+                            </div>
+                            <div class="checkbox checkbox-primary">
+                                <input id="MobilityImpaired" type="checkbox" [(ngModel)]="mobility">
+                                <label for="MobilityImpaired">
+                                    Mobility Impaired
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="btn-size" class="btn btn-primary btn-block" (click)="applyFilter()">Apply</button>
+                </div>
+            </div>
+        </div>
+       </div>
+       
+
+    </div>
+    <div class="col-md-9 col-lg-9 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="card-body">
+                <span *ngIf="totalItems > 0" style="padding-top:50px;color:grey;">
+                    <strong> Showing {{ ((pageNumber - 1) * itemsPerPage) + 1 }} to
+                        {{ pageNumber * itemsPerPage < totalItems ? pageNumber * itemsPerPage : totalItems }}
+                        of {{ totalItems | number: 0 }}
+                        {{ totalItems == 1 ? 'Application' : 'Applications' }}
+                    </strong>
+                </span>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Position</th>
+                                <th scope="col">Application No.</th>
+                                <th scope="col">Application Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let app of waitList">
+                                <td>{{ app.index }}</td>
+                                <td>
+                                    <a ng-hide="isRouteLoading" [routerLink]="['', 'projects',hid,'applications',app.applicationNumber , 'position']"
+                                        >
+                                        {{ app.applicationNumber }}
+                                    </a>
+                                </td>
+                                <td>{{ app.dateSubmitted }}</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3">
+                                    <ul class="pagination no-margin justify-content-end">
+                                    <div class="text-right">                                    
+                                        <ngb-pagination  [(page)]="pageNumber" *ngIf="totalItems > 0 && totalItems > itemsPerPage"
+                                            [pageSize]="itemsPerPage" [collectionSize]="totalItems" [maxSize]="7"
+                                            [rotate]="true" [ellipses]="true" [boundaryLinks]="true" 
+                                            (pageChange)="pageChange($event)">
+                                        </ngb-pagination>
+                                    </div>
+                                </ul>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+</div>
