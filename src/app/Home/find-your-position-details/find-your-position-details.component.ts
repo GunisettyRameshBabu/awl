@@ -24,7 +24,7 @@ export class FindYourPositionDetailsComponent implements OnInit {
     // Retrieve initial data from the resolver and map to local variables...
 
     this.mapData(this.route.snapshot.data);
-    this.showNote = false;
+    this.showNote = true;
 
   }
 

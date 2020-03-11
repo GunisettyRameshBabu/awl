@@ -54,7 +54,7 @@ export class BedRoomAdmissionsComponent implements OnInit {
   ngOnInit() {
     this.pageNumber = 1;
     this.itemsPerPage = 25;
-    this.showFilter = false;
+    this.showFilter = true;
     this.route.params.subscribe((data: any) => {
       this.hid = data.hid;
       this.applicationType = data.type;
