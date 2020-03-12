@@ -32,12 +32,12 @@ import { BedRoomAdmissionsComponent } from './WaitingList/bed-room-admissions/be
 import { BedRoomAdmissioinsProjectResolver } from './WaitingList/bed-room-admissions/bed-room-admissions-project.resolver';
 import { BedRoomAdmissionsApllicationResolver } from './WaitingList/bed-room-admissions/bed-room-admissions-applications.resolver';
 import { FilterPipe } from './shared/pipes/filter.pipe';
-import { OverlaySpinnerComponent } from './shared/spinners/router-overlay-spinner/router-overlay-spinner.component';
+import { RouterOverlaySpinnerComponent } from './shared/spinners/router-overlay-spinner/router-overlay-spinner.component';
 import { LiveAddressDirective } from './shared/directives/live-address.directive';
 import { PhoneMaskDirective } from './shared/directives/phone-mask.directive';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { HttpOverlaySpinnerComponent } from './Shared/spinners/http-overlay-spinner/http-overlay-spinner.component';
-import { AuthInterceptor } from './auth-interceptor';
+
 const routes: Routes = [
   {
     path: '',
@@ -139,7 +139,7 @@ const routes: Routes = [
     FilterPipe,
     LiveAddressDirective,
     PhoneMaskDirective,
-    OverlaySpinnerComponent,
+    RouterOverlaySpinnerComponent,
     HttpOverlaySpinnerComponent
   ],
   imports: [
@@ -175,11 +175,6 @@ const routes: Routes = [
     BedRoomAdmissioinsProjectResolver,
     BedRoomAdmissionsApllicationResolver,
     FilterPipe,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true
-    },
   ],
   entryComponents: [FindYourPositionComponent, ProjectDetailsComponent, ModalpopupComponent,
     ChangeApllicationComponent],

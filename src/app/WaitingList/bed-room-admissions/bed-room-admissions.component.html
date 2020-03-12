@@ -5,12 +5,10 @@
     <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12 ">
        <div class="card">
         <div class="card-body">
-            <div style="font-family:'ArialMT', 'Arial';font-weight:400;font-size:14px;" id="rspfltrnote">
-                <a (click)="showFilter = !showFilter" style="cursor:pointer;">
-                    <i class="fa fa-caret-down" id="Note"></i>
-                    Filters
-                </a><br />
-                <small id="filtermsg" style="font-family:'ArialMT', 'Arial';font-size:12px;">Filter applications based on options below.</small>
+            <div style="font-family:'ArialMT', 'Arial';font-weight:400;font-size:18px;" id="rspfltrnote">
+                 <strong>   Filters </strong>
+                <br />
+                <small id="filtermsg" style="font-family:'ArialMT', 'Arial';font-size:14px;">Filter applications based on options below.</small><br /><br />
             </div>
             <div id="rspfltrnoteInfo" *ngIf="showFilter" [@hideShowAnimator]="showFilter">
                 <div id="FilterNoteInfo">

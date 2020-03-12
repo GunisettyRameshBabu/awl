@@ -20,8 +20,9 @@ export class SharedapiService {
     return this.http.post(environment.awlWebApiUrl + url , body );
   }
 
-  getProjects() {
-    return this.get('/projects/');
+  getProjects(text) {
+    console.log(text);
+    return this.get('/projects?pageSize=30&page=1&filter='+ text);
   }
 
   getApplications(hid, filter) {

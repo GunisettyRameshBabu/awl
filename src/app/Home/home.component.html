@@ -1,105 +1,141 @@
 <div [hidden]="hasChildren" class="row">
-    <div class="col-xlg-8 col-lg-12 offset-xlg-2">
-      <div class="card">
-        <div class="card-body">
-          <p>Welcome to Automated Waiting List Home Page!!!</p>
-        </div>
+  <div class="col-xlg-8 col-lg-12 offset-xlg-2">
+    <!-- <div class="card">
+      <div class="card-body">
+        <p>Welcome to Automated Waiting List Home Page!!!</p>
       </div>
-      <div class="card">
-        <div class="card-body">
-          <div class="container-fluid">
-              <div class="row">
-                  <div class="col-md-8 col-lg-8 col-sm-8 col-xsm-12">
-                      <span *ngIf="totalItems > 0" style="padding-top:50px;color:grey;">
-                          <strong> Showing {{ ((pageNumber - 1) * itemsPerPage) + 1 }} to
-                                  {{ pageNumber * itemsPerPage < totalItems ? pageNumber * itemsPerPage : totalItems }} of {{ totalItems | number:0 }}
-                                  {{ totalItems == 1 ? 'Development' : 'Developments' }}
-                          </strong>
-                      </span>
-                  </div>
-                  <div class="col-md-4 col-lg-4 col-sm-4 col-xs-12">
-                      <div class="input-group ">
-                          <input class="form-control border" type="text" placeholder="Search..." [(ngModel)]="searchFilter" (keypress)="filter($event)"  />
-                              <b *ngIf="searchFilter.length > 0" (click)="clearSearch()" style="z-index: 1000; 
-                                      cursor: pointer; position: absolute; right: 38px; top: 8px; padding: 8px; ">&times; </b>
-                                  <span class="input-group-append">
-                                      <button type="button" class="btn btn-outline-secondary border-left-2 border"  (click)="reload(true)">
-                                          <i class="fas fa-search"></i>
-                                      </button>
-                                  </span>
-                      </div>
-                  </div>
+    </div> -->
+    <div class="card">
+      <div class="card-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-8 col-lg-8 col-sm-8 col-xsm-12">
+              <span *ngIf="totalItems > 0" style="padding-top:50px;color:grey;">
+                <strong>
+                  Showing {{ (pageNumber - 1) * itemsPerPage + 1 }} to
+                  {{
+                    pageNumber * itemsPerPage < totalItems
+                      ? pageNumber * itemsPerPage
+                      : totalItems
+                  }}
+                  of {{ totalItems | number: 0 }}
+                  {{ totalItems == 1 ? "Development" : "Developments" }}
+                </strong>
+              </span>
+            </div>
+            <div class="col-md-4 col-lg-4 col-sm-4 col-xs-12">
+              <div class="input-group ">
+                <!-- <input id="typeahead-basic" type="text"  class="form-control border" placeholder="Search..." [(ngModel)]="searchFilter" [ngbTypeahead]="search"/> -->
+                <input id="typeahead-format" class="form-control border" type="text"  placeholder="Search..."  [(ngModel)]="searchFilter" [ngbTypeahead]="search" />
+                <b *ngIf="searchFilter.length > 0" (click)="clearSearch()" style="z-index: 1000;  cursor: pointer; position: absolute; right: 38px; top: 8px; padding: 8px; ">&times;
+                </b>
+                <span class="input-group-append">
+                  <button type="button" class="btn btn-outline-secondary border-left-2 border" (click)="reload(true)">
+                    <i class="fas fa-search"></i>
+                  </button>
+                </span>
               </div>
-              <div class="row">
-                  <div class="col-md-12">
-                    <div class="table-responsive">
-                      <table class=" table table-striped table-hover">
-                          <div class="pull-right">
-                              <thead>
-                                  <tr>
-                                      <th scope="col" width="500px">Development</th>
-                                      <th scope="col" width="500px">Address<i class='fas fa-map-marker-alt' style='color:grey'></i></th>
-                                      <th scope="col" >Actions</th>
-                                  </tr>
-                              </thead>
-                  <tbody>
-                      <tr class="animate-repeat" style="color:grey" *ngFor="let prj of projects">
-                          <td>{{prj.projectName}}</td>
-                          <td>
-                              <span [hidden]="AddressLine2">
-                                  {{ prj.projectAddress2 }}
-                              </span>
-                                  {{ prj.projectAddress1 }}, {{ prj.projectCity }}, NY
-                                  {{ prj.projectZipCode }}
-                          </td>
-                          <td>
-                          <div type="button" class="btn-group"  uib-dropdown dropdown-append-to-body id="rspbtn">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <div  class="row animate-repeat my-5" *ngFor="let prj of projects">
+                  <div class="col-12 ">
+                    <h4>
+                      {{ prj.projectName }}
+                      <small                        >
+                        <a class="d-inline" href="#" (click)="showProjectDetails(prj.hid)">details</a></small>
+                    </h4>
+                  </div>
+                  <div class="col-12 mb-2">
+                    <span [hidden]="AddressLine2">
+                      {{ prj.projectAddress2 }}
+                    </span>
+                    <a href="https://www.google.com/maps/place/{{ prj.projectAddress1 }}+{{ prj.projectCity }}+NY+ {{ prj.projectZipCode }}/" >
+                      {{ prj.projectAddress1 }}, {{ prj.projectCity }}, NY
+                      {{ prj.projectZipCode }}</a>
+                  </div>
+                  <div class="col-12">
+                    <div aria-label="Toolbar with button groups">
+                      <div role="group" aria-label="First group">
+                        <a type="button" class="btn btn-secondary d-inline mr-3 my-2" *ngIf="prj.studioWaitList > 0" 
+                          href="projects/{{prj.hid}}/waitlist/bedrooms/0/admissions">
+                          Studio
+                        </a>
+                        <a type="button" class="btn btn-secondary d-inline mr-3 my-2" *ngIf="prj.oneBedroomWaitList > 0"
+                          href="projects/{{prj.hid}}/waitlist/bedrooms/1/admissions">
+                          1 Bedroom
+                        </a>
+                        <a type="button" class="btn btn-secondary d-inline mr-3 my-2" *ngIf="prj.twoBedroomWaitList > 0"
+                          href="projects/{{ prj.hid }}/waitlist/bedrooms/2/admissions">
+                          2 Bedroom
+                        </a>
+                        <a type="button" class="btn btn-secondary d-inline mr-3 my-2" *ngIf="prj.threeBedroomWaitList > 0"
+                          href="projects/{{prj.hid}}/waitlist/bedrooms/3/admissions">
+                          3 Bedroom
+                        </a>
+                        <a type="button" class="btn btn-secondary d-inline mr-3 my-2" *ngIf="prj.fourBedroomWaitList > 0"
+                          href="projects/{{prj.hid}}/waitlist/bedrooms/4/admissions">
+                          4 Bedroom
+                        </a>
+                        <a type="button" class="btn btn-secondary d-inline mr-3 my-2" *ngIf="prj.fiveBedroomWaitList > 0"
+                          href="projects/{{prj.hid}}/waitlist/bedrooms/5/admissions">
+                          5 Bedroom
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!--
+                          <div type="button" class="btn-group"   uib-dropdown dropdown-append-to-body id="rspbtn">
                               <div ngbDropdown class="d-inline-block">
-                                  <a class="btn btn-sm btn-default dropdown-toggle " type="button" style="color:grey" id="dropdownBasic1" ngbDropdownToggle>
+                                  <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle "  id="dropdownBasic1" ngbDropdownToggle>
                                       <i class="fa fa-cog fa-spin-hover" aria-hidden="true"></i>
                                           <span class="fa fa-caret-down"></span>
-                                  </a>
+                                  </button>
                           <ul ngbDropdownMenu class="dropdown-menu dropdown-menu-right font-sm" aria-labelledby="dropdownBasic1">
                               <li class="dropdown-header">
                                   <strong>WAITING LISTS</strong>
                               </li>
                               <li ngbDropdownItem *ngIf="prj.studioWaitList > 0">
-                                  <a [routerLink]="['','projects',prj.hid, 'waitlist','bedrooms',0,'admissions']">
+                                  <a href="projects/{{ prj.hid }}/waitlist/bedrooms/0/admissions">
                                       <i class="fa fa-fw fa-angle-right hvr-grow"></i>
                                           Studio
                                       <span class="font-xs">({{ prj.studioWaitList }})</span>
                                   </a>
                               </li>
                               <li ngbDropdownItem *ngIf="prj.oneBedroomWaitList > 0">
-                                  <a [routerLink]="['','projects',prj.hid, 'waitlist','bedrooms',1,'admissions']">
+                                  <a href="projects/{{ prj.hid }}/waitlist/bedrooms/1/admissions">
                                       <i class="fa fa-fw fa-angle-right hvr-grow"></i>
                                           1 Bedroom
                                       <span class="font-xs">({{prj.oneBedroomWaitList }})</span>
                                   </a>
                               </li>
                               <li ngbDropdownItem *ngIf="prj.twoBedroomWaitList > 0">
-                                  <a [routerLink]="['','projects',prj.hid, 'waitlist','bedrooms',2,'admissions']">
+                                  <a href="projects/{{ prj.hid }}/waitlist/bedrooms/2/admissions">
                                       <i class="fa fa-fw fa-angle-right hvr-grow"></i>
                                           2 Bedroom
                                       <span class="font-xs ">({{ prj.twoBedroomWaitList }})</span>
                                   </a>
                               </li>
                               <li ngbDropdownItem *ngIf="prj.threeBedroomWaitList > 0">
-                                  <a [routerLink]="['','projects',prj.hid, 'waitlist','bedrooms',3,'admissions']">
+                                  <a href="projects/{{ prj.hid }}/waitlist/bedrooms/3/admissions">
                                       <i class="fa fa-fw fa-angle-right hvr-grow"></i>
                                           3 Bedroom
                                       <span class="font-xs">({{ prj.threeBedroomWaitList }})</span>
                                   </a>
                               </li>
                               <li ngbDropdownItem *ngIf="prj.fourBedroomWaitList > 0">
-                                  <a [routerLink]="['','projects',prj.hid, 'waitlist','bedrooms',4,'admissions']">
+                                  <a href="projects/{{ prj.hid }}/waitlist/bedrooms/4/admissions">
                                       <i class="fa fa-fw fa-angle-right hvr-grow"></i>
                                           4 Bedroom
                                       <span class="font-xs">({{ prj.fourBedroomWaitList }})</span>
                                   </a>
                               </li>
                               <li ngbDropdownItem *ngIf="prj.fiveBedroomWaitList > 0">
-                                  <a [routerLink]="['','projects',prj.hid, 'waitlist','bedrooms',5,'admissions']">
+                                  <a href="projects/{{ prj.hid }}/waitlist/bedrooms/5/admissions">
                                       <i class="fa fa-fw fa-angle-right hvr-grow"></i>
                                           5 Bedroom
                                       <span class="font-xs">({{ prj.fiveBedroomWaitList }})</span>
@@ -127,31 +163,39 @@
                               </li>
                           </ul>
                               </div>
-                          </div>
+                            </div>
                           </td>
                       </tr>
-                  </tbody>
-                  <tfoot>
+                    </tbody>
+                    <tfoot>
                       <tr>
-                          <td colspan="3 font-14 col-8 mt-4">
-                            <ul class="pagination no-margin justify-content-end"> 
-                              <div class="text-left ">
-                                  <ngb-pagination *ngIf="totalItems > itemsPerPage" [(page)]="pageNumber" [pageSize]="itemsPerPage" [collectionSize]="totalItems" [maxSize]="7"
-                                                  [rotate]="true" [ellipses]="true" [boundaryLinks]="true" (pageChange)="pageChange($event)">
-                                  </ngb-pagination>
-                              </div>
-                              </ul>
-                          </td>
-                      </tr>
-                  </tfoot>
-                          </div>
-                      </table>
-                    </div>
+                        <td colspan="3 font-14 col-8 mt-4"> -->
+                <ul class="pagination no-margin justify-content-end">
+                  <div class="text-left ">
+                    <ngb-pagination
+                      *ngIf="totalItems > itemsPerPage"
+                      [(page)]="pageNumber"
+                      [pageSize]="itemsPerPage"
+                      [collectionSize]="totalItems"
+                      [maxSize]="7"
+                      [rotate]="true"
+                      [ellipses]="true"
+                      [boundaryLinks]="true"
+                      (pageChange)="pageChange($event)"
+                    >
+                    </ngb-pagination>
                   </div>
+                </ul>
+                <!-- </td>
+                      </tr>
+                    </tfoot>
+                  </div>
+                </table> -->
               </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  
+</div>

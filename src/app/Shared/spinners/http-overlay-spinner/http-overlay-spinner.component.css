@@ -8,12 +8,11 @@
   }
   
   .loader {
-    position: fixed; /* or absolute */
-    top: 30%;
-    left: 50%;
-    /* position: relative;
+    position: absolute;
+    margin:500px;
+    margin-left: 1120pxpx;/* position: relative;
     margin: 0px auto; */
-    width: 100px; /* SET SIZE OF SPINNER HERE */
+    width: 80px; /* SET SIZE OF SPINNER HERE */
   }
   
   .loader:before {

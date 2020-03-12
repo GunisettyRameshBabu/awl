@@ -1,14 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
-import {
-  ActivatedRoute,
-  NavigationEnd,
-  PRIMARY_OUTLET,
-  Params,
-  Router,
-  NavigationStart,
-  NavigationCancel,
-  NavigationError
-} from "@angular/router";
+import { ActivatedRoute, NavigationEnd, PRIMARY_OUTLET, Params, Router, NavigationStart, NavigationCancel, NavigationError} from "@angular/router";
 import { filter } from "rxjs/operators";
 import { HttpOverlaySpinnerService } from "src/app/Shared/spinners/http-overlay-spinner/http-overlay-spinner.service";
 import { RouterOverlaySpinnerService } from "src/app/Shared/spinners/router-overlay-spinner/router-overlay-spinner.service";

@@ -1,18 +1,22 @@
 <div class="container-fluid">
-    <ng-template #popContent>
-        <app-change-application [applicationNumber]="application.applicationNumber" [hid]="project.hid"></app-change-application>
-    </ng-template>
-    <app-page-header [project]="project" [title]="'Waiting List Position'"
-        [description]="'Use search view to show search functionality.'" [applicationNumber]="application.applicationNumber"></app-page-header>
-    <div class="row">
-        <div class="col-md-3 col-lg-3">
+  <ng-template #popContent>
+    <app-change-application
+      [applicationNumber]="application.applicationNumber"
+      [hid]="project.hid"
+    ></app-change-application>
+  </ng-template>
+  <app-page-header
+    [project]="project"
+    [title]="'Waiting List Position'"
+    [description]="'Use search view to show search functionality.'"
+    [applicationNumber]="application.applicationNumber"
+  ></app-page-header>
+  <div class="row">
+    <div class="col-md-3 col-lg-3">
             <div id="rspupdnote">
-                <a [routerLink]='' (click)="showUpdateNote()"
-                    style="cursor:pointer;font-family:'ArialMT', 'Arial';font-weight:400;font-size:14px;"
-                    aria-expanded="false" data-target="#rspupdnoteInfo" data-toggle="collapse">
-                    <i class="fa fa-caret-down" id="Note"></i>
-                    Update Contact Information
-                </a><br />
+                <strong>
+                    Update Contact Information</strong>
+                <br /><br />
             </div>
             <div id="rspupdnoteInfo" *ngIf="showNote">
                 <div id="UpdateNoteInfo" style="font-family:'ArialMT', 'Arial';" class="form-inline">
@@ -30,48 +34,42 @@
                 <div class="card-body">
                     <button type="button" class="btn btn-link" placement="top"
                     [ngbPopover]="popContent"
-                        popoverClass="popoverWidth" autoClose="outside">
+                        popoverClass="popoverWidth" autoClose="outside" >
                         {{ 'Application #' + application.applicationNumber || 'empty' }}
-                        <hr>
                     </button>
-                    <p class="card-text">
-                        <strong>{{ item.key | capitalize }} waiting list 
-                    </strong>
                     
+                    <p class="card-text"><strong>{{ item.key | capitalize }} waiting list</strong>
                     </p>
-                   
-                    <div class="table-responsive">
-                        <table class="table table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Apartment Size</th>
-                                    <th scope="col">Position</th>
-                                    <th scope="col">Progress</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="animate-repeat" *ngFor="let position of item.value">
-                                    <td>
-                                        <span *ngIf="position.apartmentSize == 0">Studio</span>
-                                        <span *ngIf="position.apartmentSize != 0">{{ position.apartmentSize }}
-                                            Bedroom</span>
-                                    </td>
-                                    <td class="form-inline">
-                                        <span> {{ position.position }} out of
-                                       
-                                        </span> &nbsp;
-                                        <a [routerLink]="['','projects',project.hid,'waitlist','bedrooms', position.apartmentSize ,application.type]" >
-                                            {{ position.count }} </a>
-                                    </td>
-                                    <td>
-                                        <ngb-progressbar [type]="getType(position.percentRemaining)" animated="true" [max]="position.count" striped="true"
-                                            [value]="(position.count - position.position)"></ngb-progressbar>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                  
+
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Apartment Size</th>
+                                <th scope="col">Position</th>
+                                <th scope="col">Progress</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="animate-repeat" *ngFor="let position of item.value">
+                                <td>
+                                    <span *ngIf="position.apartmentSize == 0">Studio</span>
+                                    <span *ngIf="position.apartmentSize != 0">{{ position.apartmentSize }}
+                                        Bedroom</span>
+                                </td>
+                                <td class="form-inline">
+                                    <span> {{ position.position }} out of
+                                   
+                                    </span> &nbsp;
+                                    <a [routerLink]="['','projects',project.hid,'waitlist','bedrooms', position.apartmentSize ,application.type]" >
+                                        {{ position.count }} </a>
+                                </td>
+                                <td>
+                                    <ngb-progressbar [type]="getType(position.percentRemaining)" animated="true" [max]="position.count" striped="true"
+                                        [value]="(position.count - position.position)"></ngb-progressbar>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <div class="panel">
@@ -90,15 +88,15 @@
                                     <table class="table table-bordered">
                                         <tbody>
                                             <tr>
-                                                <td scope="row">Date:</td>
+                                                <th scope="row">Date:</th>
                                                 <td>{{ application.applicationDate }}</td>
                                             </tr>
                                             <tr>
-                                                <td scope="row">Type:</td>
+                                                <th scope="row">Type:</th>
                                                 <td>{{ application.type }}</td>
                                             </tr>
                                             <tr>
-                                                <td scope="row">Size (1st choice):</td>
+                                                <th scope="row">Size (1st choice):</th>
                                                 <td>
                                                     <span
                                                         *ngIf="application.apartmentSizeFirstChoice == 0">Studio</span>
@@ -108,7 +106,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td scope="row">Size (2nd choice):</td>
+                                                <th scope="row">Size (2nd choice):</th>
                                                 <td colspan="2">
                                                     <span *ngIf="!application.apartmentSizeSecondChoice">N/A</span>
                                                     <span
@@ -119,21 +117,21 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td scope="row">Senior:</td>
+                                                <th scope="row">Senior:</th>
                                                 <td>{{ application.isSenior }}</td>
                                             </tr>
                                             <tr>
-                                                <td scope="row">Mobility Impaired:</td>
+                                                <th scope="row">Mobility Impaired:</th>
                                                 <td>{{ application.isMobilityImpaired }}</td>
                                             </tr>
                                             <tr>
-                                                <td scope="row">Subsidy Required:</td>
+                                                <th scope="row">Subsidy Required:</th>
                                                 <td>{{ application.isSubsidyRequired }}</td>
                                             </tr>
 
                                         </tbody>
                                     </table>
-                                    <!-- <div class=""> Date:<span class="m-l-lg">{{ application.applicationDate }}</span></div>
+                                    <div class=""> Date:<span class="m-l-lg">{{ application.applicationDate }}</span></div>
                                     <div class=""> Type:<span class="m-l-lg m-l-lg m-l-lg m-l-lg m-l-lg m-l-lg m-l-lg m-l-lg">{{ application.type }}</span></div>
                                     <div class="">
                                         Size (1st choice):<span class="m-l-sm">
@@ -150,7 +148,7 @@
                                     </div>
                                     <div class=""> Senior:<span class="m-l-sm">{{ application.isSenior }}</span></div>
                                     <div class=""> Mobility Impaired:<span class="m-l-sm">{{ application.isMobilityImpaired }}</span></div>
-                                    <div class=""> Subsidy Required:<span class="m-l-sm">{{ application.isSubsidyRequired }}</span></div> -->
+                                    <div class=""> Subsidy Required:<span class="m-l-sm">{{ application.isSubsidyRequired }}</span></div>
                                 </div>
                             </div>
                         </div>

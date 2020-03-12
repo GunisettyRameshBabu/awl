@@ -5,7 +5,7 @@ import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
   templateUrl: './router-overlay-spinner.component.html',
   styleUrls: ['./router-overlay-spinner.component.css']
 })
-export class OverlaySpinnerComponent implements OnInit, OnDestroy {
+export class RouterOverlaySpinnerComponent implements OnInit, OnDestroy {
   constructor(private renderer: Renderer2) { }
 
   ngOnInit() {

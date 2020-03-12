@@ -5,15 +5,15 @@
     left: 0;
     right: 0;
     padding: 5%;
+    margin-top:100%;
   }
   
   .loader {
-    position: fixed; /* or absolute */
-    top: 30%;
-    left: 50%;
-    /* position: relative;
+    position: absolute;
+    margin:500px;
+    margin-left: 1120px;/* position: relative;
     margin: 0px auto; */
-    width: 100px; /* SET SIZE OF SPINNER HERE */
+    width: 80px; /* SET SIZE OF SPINNER HERE */
   }
   
   .loader:before {
@@ -28,13 +28,13 @@
     height: 100%;
     -webkit-transform-origin: center center;
             transform-origin: center center;
-    width: 100%;
+    width: 90%;
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    margin: auto;
+    margin: 0 auto;
   }
   
   .path {
