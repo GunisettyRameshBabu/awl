@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { from } from 'rxjs';
 import { Contact } from '../models/contact.model';
@@ -21,8 +21,8 @@ export class SharedapiService {
   }
 
   getProjects(text) {
-    console.log(text);
-    return this.get('/projects?pageSize=30&page=1&filter='+ text);
+
+    return text.length > 0 ? this.get('/projects?pageSize=30&page=1&filter='+ text) : of({ results : []});
   }
 
   getApplications(hid, filter) {

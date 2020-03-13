@@ -51,21 +51,22 @@
         <!-- ============================================================== -->
         <!-- Bread crumb and right sidebar toggle -->
         <!-- ============================================================== -->
-        <div class="page-titles">
-          <div class="align-self-center breadCrumbNav">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item" *ngFor="let breadcrumb of breadcrumbs; let i = index">
-                <a [routerLink]="[breadcrumb.url]" class="dl" [innerHTML]="breadcrumb.label">                    
-                </a>
-                <i *ngIf="i < breadcrumbs.length - 1" class="fas fa-angle-right m-l-10"></i>
-              </li>
-            </ol>
-          </div>
-        </div>
+       
         <div>
+          <div class="page-titles">
+            <div class="align-self-center breadCrumbNav">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item" *ngFor="let breadcrumb of breadcrumbs; let i = index">
+                  <a [routerLink]="[breadcrumb.url]" class="dl" [innerHTML]="breadcrumb.label">                    
+                  </a>
+                  <i *ngIf="i < breadcrumbs.length - 1" class="fas fa-angle-right m-l-10"></i>
+                </li>
+              </ol>
+            </div>
+          </div>
            <app-router-overlay-spinner *ngIf="isRouterOverlaySpinnerVisible"></app-router-overlay-spinner>
            <app-http-overlay-spinner *ngIf="isHttpOverlaySpinnerVisible"></app-http-overlay-spinner>
-          <router-outlet></router-outlet>
+          <router-outlet style="padding-top: 50px;"></router-outlet>
         </div>
       </div>
     </div>

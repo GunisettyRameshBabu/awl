@@ -24,17 +24,15 @@
               </span>
             </div>
             <div class="col-md-4 col-lg-4 col-sm-4 col-xs-12">
-              <div class="input-group ">
-                <!-- <input id="typeahead-basic" type="text"  class="form-control border" placeholder="Search..." [(ngModel)]="searchFilter" [ngbTypeahead]="search"/> -->
-                <input id="typeahead-format" class="form-control border" type="text"  placeholder="Search..."  [(ngModel)]="searchFilter" [ngbTypeahead]="search" />
-                <b *ngIf="searchFilter.length > 0" (click)="clearSearch()" style="z-index: 1000;  cursor: pointer; position: absolute; right: 38px; top: 8px; padding: 8px; ">&times;
-                </b>
+              <div class="input-group">
+                <input id="typeahead-format" class="form-control border" type="text"  placeholder="Search..."  [(ngModel)]="searchFilter" [ngbTypeahead]="search" (keypress)="filter($event)" />
+                <b *ngIf="searchFilter.length > 0" (click)="clearSearch()" style="z-index: 1000; cursor: pointer; position: absolute; right: 38px; top: 8px; padding: 0 8px;">&times;</b>
                 <span class="input-group-append">
-                  <button type="button" class="btn btn-outline-secondary border-left-2 border" (click)="reload(true)">
-                    <i class="fas fa-search"></i>
-                  </button>
+                  <button class="btn btn-outline-secondary border-left-0 border" type="button" (click)="reload(true)"><i
+                      class="fas fa-search"></i></button>
                 </span>
               </div>
+              
             </div>
           </div>
           <div class="row">
