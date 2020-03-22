@@ -1,28 +1,42 @@
-import { Component, OnInit, AfterViewInit, ChangeDetectorRef } from '@angular/core';
-import { RouterOverlaySpinnerService } from './Shared/spinners/router-overlay-spinner/router-overlay-spinner.service';
-import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { HttpOverlaySpinnerService } from './Shared/spinners/http-overlay-spinner/http-overlay-spinner.service';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  ChangeDetectorRef
+} from "@angular/core";
+import { RouterOverlaySpinnerService } from "./Shared/spinners/router-overlay-spinner/router-overlay-spinner.service";
+import {
+  Router,
+  NavigationStart,
+  NavigationEnd,
+  NavigationCancel,
+  NavigationError
+} from "@angular/router";
+import { ToastrService } from "ngx-toastr";
+import { HttpOverlaySpinnerService } from "./Shared/spinners/http-overlay-spinner/http-overlay-spinner.service";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"]
 })
-
-export class AppComponent implements OnInit , AfterViewInit {
-  title = 'PublicAWL';
+export class AppComponent implements OnInit, AfterViewInit {
+  title = "PublicAWL";
   isRouterOverlaySpinnerVisible: boolean;
   isHttpOverlaySpinnerVisible: boolean;
 
   constructor(
-    private router: Router, private cd: ChangeDetectorRef,
+    private router: Router,
+    private cd: ChangeDetectorRef,
     private httpOverlaySpinnerService: HttpOverlaySpinnerService,
     private routerOverlaySpinnerService: RouterOverlaySpinnerService,
-    private toastr: ToastrService) {
-  }
-  
+    private toastr: ToastrService
+  ) {}
+
   ngOnInit() {
+    this.router.routeReuseStrategy.shouldReuseRoute = function() {
+      return false;
+    };
     // Monitor changes to the state (visible/hidden) of the HTTP Overlay Spinner...
     this.httpOverlaySpinnerService.spinnerState.subscribe((state: boolean) => {
       // Set variable to indicate if the HTTP Overlay Spinner is visible...
@@ -30,10 +44,12 @@ export class AppComponent implements OnInit , AfterViewInit {
     });
 
     // Monitor changes to the state (visible/hidden) of the Router Overlay Spinner...
-    this.routerOverlaySpinnerService.spinnerState.subscribe((state: boolean) => {
-      // Set variable to indicate if the Router Overlay Spinner is visible...
-      this.isRouterOverlaySpinnerVisible = state;
-    });
+    this.routerOverlaySpinnerService.spinnerState.subscribe(
+      (state: boolean) => {
+        // Set variable to indicate if the Router Overlay Spinner is visible...
+        this.isRouterOverlaySpinnerVisible = state;
+      }
+    );
   }
 
   ngAfterViewInit() {
@@ -44,15 +60,17 @@ export class AppComponent implements OnInit , AfterViewInit {
 
         // Close all open toastr messages...
         this.toastr.clear();
-
-      } else if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
+      } else if (
+        event instanceof NavigationEnd ||
+        event instanceof NavigationCancel ||
+        event instanceof NavigationError
+      ) {
         // Hide the Router Overlay Spinner...
         this.routerOverlaySpinnerService.hide();
       }
 
       window.scroll(0, 0);
-     // this.cd.detectChanges();
+      //this.cd.detectChanges();
     });
   }
 }
-

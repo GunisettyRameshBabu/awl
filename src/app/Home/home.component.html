@@ -25,60 +25,133 @@
             </div>
             <div class="col-md-4 col-lg-4 col-sm-4 col-xs-12">
               <div class="input-group">
-                <input id="typeahead-format" class="form-control border" type="text"  placeholder="Search..."  [(ngModel)]="searchFilter" [ngbTypeahead]="search" (keypress)="filter($event)" />
-                <b *ngIf="searchFilter.length > 0" (click)="clearSearch()" style="z-index: 1000; cursor: pointer; position: absolute; right: 38px; top: 8px; padding: 0 8px;">&times;</b>
+                <input
+                  id="typeahead-format"
+                  class="form-control border"
+                  type="text"
+                  placeholder="Search..."
+                  [(ngModel)]="searchFilter"
+                  [ngbTypeahead]="search"
+                  (keypress)="filter($event)"
+                />
+                <b
+                  *ngIf="searchFilter.length > 0"
+                  (click)="clearSearch()"
+                  style="z-index: 1000; cursor: pointer; position: absolute; right: 38px; top: 8px; padding: 0 8px;"
+                  >&times;</b
+                >
                 <span class="input-group-append">
-                  <button class="btn btn-outline-secondary border-left-0 border" type="button" (click)="reload(true)"><i
-                      class="fas fa-search"></i></button>
+                  <button
+                    class="btn btn-outline-secondary border-left-0 border"
+                    type="button"
+                    (click)="reload(true)"
+                  >
+                    <i class="fas fa-search"></i>
+                  </button>
                 </span>
               </div>
-              
             </div>
           </div>
           <div class="row">
             <div class="col-md-12">
               <div class="table-responsive">
-                <div  class="row animate-repeat my-5" *ngFor="let prj of projects">
+                <div
+                  class="row animate-repeat my-5"
+                  *ngFor="let prj of projects"
+                >
                   <div class="col-12 ">
                     <h4>
                       {{ prj.projectName }}
-                      <small                        >
-                        <a class="d-inline" href="#" (click)="showProjectDetails(prj.hid)">details</a></small>
+                      <small>
+                        <a
+                          class="d-inline"
+                          href="#"
+                          (click)="showProjectDetails(prj.hid)"
+                          >details</a
+                        ></small
+                      >
                     </h4>
                   </div>
                   <div class="col-12 mb-2">
                     <span [hidden]="AddressLine2">
                       {{ prj.projectAddress2 }}
                     </span>
-                    <a href="https://www.google.com/maps/place/{{ prj.projectAddress1 }}+{{ prj.projectCity }}+NY+ {{ prj.projectZipCode }}/" >
+                    <a
+                      href="https://www.google.com/maps/place/{{
+                        prj.projectAddress1
+                      }}+{{ prj.projectCity }}+NY+ {{ prj.projectZipCode }}/"
+                    >
                       {{ prj.projectAddress1 }}, {{ prj.projectCity }}, NY
-                      {{ prj.projectZipCode }}</a>
+                      {{ prj.projectZipCode }}</a
+                    >
                   </div>
                   <div class="col-12">
                     <div aria-label="Toolbar with button groups">
                       <div role="group" aria-label="First group">
-                        <a type="button" class="btn btn-secondary d-inline mr-3 my-2" *ngIf="prj.studioWaitList > 0" 
-                          href="projects/{{prj.hid}}/waitlist/bedrooms/0/admissions">
+                        <a
+                          type="button"
+                          href="javascript: void(0);"
+                          class="btn btn-secondary d-inline mr-3 my-2"
+                          *ngIf="prj.studioWaitList > 0"
+                          routerLink="projects/{{
+                            prj.hid
+                          }}/waitlist/bedrooms/0/admissions"
+                        >
                           Studio
                         </a>
-                        <a type="button" class="btn btn-secondary d-inline mr-3 my-2" *ngIf="prj.oneBedroomWaitList > 0"
-                          href="projects/{{prj.hid}}/waitlist/bedrooms/1/admissions">
+                        <a
+                          type="button"
+                          href="javascript: void(0);"
+                          class="btn btn-secondary d-inline mr-3 my-2"
+                          *ngIf="prj.oneBedroomWaitList > 0"
+                          routerLink="projects/{{
+                            prj.hid
+                          }}/waitlist/bedrooms/1/admissions"
+                        >
                           1 Bedroom
                         </a>
-                        <a type="button" class="btn btn-secondary d-inline mr-3 my-2" *ngIf="prj.twoBedroomWaitList > 0"
-                          href="projects/{{ prj.hid }}/waitlist/bedrooms/2/admissions">
+                        <a
+                          type="button"
+                          href="javascript: void(0);"
+                          class="btn btn-secondary d-inline mr-3 my-2"
+                          *ngIf="prj.twoBedroomWaitList > 0"
+                          routerLink="projects/{{
+                            prj.hid
+                          }}/waitlist/bedrooms/2/admissions"
+                        >
                           2 Bedroom
                         </a>
-                        <a type="button" class="btn btn-secondary d-inline mr-3 my-2" *ngIf="prj.threeBedroomWaitList > 0"
-                          href="projects/{{prj.hid}}/waitlist/bedrooms/3/admissions">
+                        <a
+                          type="button"
+                          href="javascript: void(0);"
+                          class="btn btn-secondary d-inline mr-3 my-2"
+                          *ngIf="prj.threeBedroomWaitList > 0"
+                          routerLink="projects/{{
+                            prj.hid
+                          }}/waitlist/bedrooms/3/admissions"
+                        >
                           3 Bedroom
                         </a>
-                        <a type="button" class="btn btn-secondary d-inline mr-3 my-2" *ngIf="prj.fourBedroomWaitList > 0"
-                          href="projects/{{prj.hid}}/waitlist/bedrooms/4/admissions">
+                        <a
+                          type="button"
+                          href="javascript: void(0);"
+                          class="btn btn-secondary d-inline mr-3 my-2"
+                          *ngIf="prj.fourBedroomWaitList > 0"
+                          routerLink="projects/{{
+                            prj.hid
+                          }}/waitlist/bedrooms/4/admissions"
+                        >
                           4 Bedroom
                         </a>
-                        <a type="button" class="btn btn-secondary d-inline mr-3 my-2" *ngIf="prj.fiveBedroomWaitList > 0"
-                          href="projects/{{prj.hid}}/waitlist/bedrooms/5/admissions">
+                        <a
+                          type="button"
+                          href="javascript: void(0);"
+                          class="btn btn-secondary d-inline mr-3 my-2"
+                          *ngIf="prj.fiveBedroomWaitList > 0"
+                          routerLink="projects/{{
+                            prj.hid
+                          }}/waitlist/bedrooms/5/admissions"
+                        >
                           5 Bedroom
                         </a>
                       </div>

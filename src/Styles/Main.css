@@ -2313,7 +2313,8 @@ File: scss
 }
 
 .page-titles .breadcrumb li {
-  margin-top: 0px;
+  margin-top: 10px;
+  margin-left: 10px;
   margin-bottom: 0px;
 }
 

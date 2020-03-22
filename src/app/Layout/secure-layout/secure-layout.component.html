@@ -1,6 +1,9 @@
 <div class="sidenav" *ngIf="_opened">
   <ul style="list-style: none;">
-    <li style="float: right; padding-right: 20px;font-size: 20px;color: white; cursor: pointer;" (click)="_toggleSidebar()"    >
+    <li
+      style="float: right; padding-right: 20px;font-size: 20px;color: white; cursor: pointer;"
+      (click)="_toggleSidebar()"
+    >
       x
     </li>
     <br />
@@ -44,29 +47,44 @@
         </div>
       </div>
     </nav>
-  </header>  
-    <div role="main">
+
+    <div class="page-titles">
+      <div class="align-self-center breadCrumbNav">
+        <ol class="breadcrumb">
+          <li
+            class="breadcrumb-item"
+            *ngFor="let breadcrumb of breadcrumbs; let i = index"
+          >
+            <a
+              [routerLink]="[breadcrumb.url]"
+              class="dl"
+              [innerHTML]="breadcrumb.label"
+            >
+            </a>
+            <i
+              *ngIf="i < breadcrumbs.length - 1"
+              class="fas fa-angle-right m-l-10"
+            ></i>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </header>
+  <div role="main">
     <div class="page-wrapper">
       <div class="container-fluid">
         <!-- ============================================================== -->
         <!-- Bread crumb and right sidebar toggle -->
         <!-- ============================================================== -->
-       
-        <div>
-          <div class="page-titles">
-            <div class="align-self-center breadCrumbNav">
-              <ol class="breadcrumb">
-                <li class="breadcrumb-item" *ngFor="let breadcrumb of breadcrumbs; let i = index">
-                  <a [routerLink]="[breadcrumb.url]" class="dl" [innerHTML]="breadcrumb.label">                    
-                  </a>
-                  <i *ngIf="i < breadcrumbs.length - 1" class="fas fa-angle-right m-l-10"></i>
-                </li>
-              </ol>
-            </div>
-          </div>
-           <app-router-overlay-spinner *ngIf="isRouterOverlaySpinnerVisible"></app-router-overlay-spinner>
-           <app-http-overlay-spinner *ngIf="isHttpOverlaySpinnerVisible"></app-http-overlay-spinner>
-          <router-outlet style="padding-top: 50px;"></router-outlet>
+
+        <div class="list-data">
+          <app-router-overlay-spinner
+            *ngIf="isRouterOverlaySpinnerVisible"
+          ></app-router-overlay-spinner>
+          <app-http-overlay-spinner
+            *ngIf="isHttpOverlaySpinnerVisible"
+          ></app-http-overlay-spinner>
+          <router-outlet></router-outlet>
         </div>
       </div>
     </div>
