@@ -1,9 +1,18 @@
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
-import { ActivatedRoute, NavigationEnd, PRIMARY_OUTLET, Params, Router, NavigationStart, NavigationCancel, NavigationError} from "@angular/router";
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  PRIMARY_OUTLET,
+  Params,
+  Router,
+  NavigationStart,
+  NavigationCancel,
+  NavigationError
+} from "@angular/router";
 import { filter } from "rxjs/operators";
 import { HttpOverlaySpinnerService } from "src/app/Shared/spinners/http-overlay-spinner/http-overlay-spinner.service";
 import { RouterOverlaySpinnerService } from "src/app/Shared/spinners/router-overlay-spinner/router-overlay-spinner.service";
-import { ToastrService } from 'ngx-toastr';
+import { ToastrService } from "ngx-toastr";
 declare var jQuery: any;
 declare var $: any;
 
@@ -35,6 +44,7 @@ export class SecureLayoutComponent implements OnInit {
     // Clear existing breadcrumb data...
     this.breadcrumbs = [];
     this.breadcrumbsUrl = "";
+    this.generateBreadcrumbs(this.activatedRoute.root);
   }
 
   ngOnInit() {
@@ -73,10 +83,7 @@ export class SecureLayoutComponent implements OnInit {
 
   generateBreadcrumbs(activatedRoute: ActivatedRoute) {
     // Check if the route has a breadcrumb label and is not set to ignore...
-    if (
-      activatedRoute.snapshot.data.hasOwnProperty("breadcrumb") &&
-      !activatedRoute.snapshot.data["breadcrumbIgnore"]
-    ) {
+    if (activatedRoute.snapshot.data.hasOwnProperty("breadcrumb")) {
       // Construct the breadcrumb url (each subsequent route will add to this)...
       this.breadcrumbsUrl +=
         "/" +
@@ -88,7 +95,6 @@ export class SecureLayoutComponent implements OnInit {
         url: this.breadcrumbsUrl
       });
     }
-
     // Loop through each child route and recursively generate breadcrumbs for each...
     activatedRoute.children.forEach(child => {
       this.generateBreadcrumbs(child);
@@ -111,14 +117,17 @@ export class SecureLayoutComponent implements OnInit {
 
         // Close all open toastr messages...
         this.toastr.clear();
-
-      } else if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
+      } else if (
+        event instanceof NavigationEnd ||
+        event instanceof NavigationCancel ||
+        event instanceof NavigationError
+      ) {
         // Hide the Router Overlay Spinner...
         this.routerOverlaySpinnerService.hide();
       }
 
       window.scroll(0, 0);
-     // this.cd.detectChanges();
+      // this.cd.detectChanges();
     });
   }
 }
