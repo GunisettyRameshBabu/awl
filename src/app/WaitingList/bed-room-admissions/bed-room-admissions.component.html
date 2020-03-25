@@ -1,7 +1,6 @@
 <app-page-header [title]="'Waiting List'" [description]="'Use search view to show search functionality.'"
     [project]="project"></app-page-header>
-
-<div class="row">
+<div class="row" *ngIf="hasChildren == false">
     <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12 ">
        <div class="card">
         <div class="card-body">
@@ -92,7 +91,7 @@
                             <tr *ngFor="let app of waitList">
                                 <td>{{ app.index }}</td>
                                 <td>
-                                    <a ng-hide="isRouteLoading" [routerLink]="['', 'projects',hid,'applications',app.applicationNumber , 'position']"
+                                    <a  ng-hide="isRouteLoading" [routerLink]="['','bedrooms','waitlist',hid,app.applicationNumber , 'position']"
                                         >
                                         {{ app.applicationNumber }}
                                     </a>

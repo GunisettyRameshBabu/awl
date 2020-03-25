@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-find-your-position-details',
@@ -12,6 +13,7 @@ export class FindYourPositionDetailsComponent implements OnInit {
   application;
   waitingLists: any[];
   showNote;
+  hasChildren: boolean;
   constructor(private router: Router, private route: ActivatedRoute, ) {
     // Force new instance of component when reloading...
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
@@ -21,6 +23,11 @@ export class FindYourPositionDetailsComponent implements OnInit {
 
   ngOnInit() {
 
+    this.hasChildren = false;
+    this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(event => {
+      this.hasChildren = this.route.children.length > 0;
+      console.log(this.hasChildren);
+    });
     // Retrieve initial data from the resolver and map to local variables...
 
     this.mapData(this.route.snapshot.data);

@@ -41,6 +41,9 @@ import { LiveAddressDirective } from "./shared/directives/live-address.directive
 import { PhoneMaskDirective } from "./shared/directives/phone-mask.directive";
 import { NgxSpinnerModule } from "ngx-spinner";
 import { HttpOverlaySpinnerComponent } from "./Shared/spinners/http-overlay-spinner/http-overlay-spinner.component";
+import { BedRooms } from "./WaitingList/bedrooms/bedrooms.component";
+import { WaitingListComponent } from "./Home/waiting-list/waiting-list.component";
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 const routes: Routes = [
   {
@@ -53,6 +56,10 @@ const routes: Routes = [
       {
         path: "",
         pathMatch: "full",
+        redirectTo: "home"
+      },
+      {
+        path: "home",
         component: HomeComponent,
         data: {
           breadcrumbIgnore: true
@@ -60,62 +67,66 @@ const routes: Routes = [
         resolve: {
           projects: HomeResolver
         },
-        runGuardsAndResolvers: "always"
-      },
-      // {
-      //   path: "home",
-      //   pathMatch: "full",
-      //   component: HomeComponent,
-      //   resolve: {
-      //     projects: HomeResolver
-      //   }
-      // },
-      {
-        path: "projects/:hid/applications/contact/edit",
-        component: ContactInfoComponent,
-        data: {
-          breadcrumb: "Contact Info"
-        },
-        resolve: {
-          project: ContactinfoResolver
-        },
-        runGuardsAndResolvers: "always"
+        runGuardsAndResolvers: "always",
+        children: []
       },
       {
-        path: "projects/:hid/applications/:applicationNumber/contact/edit",
-        component: ContactInfoComponent,
+        path: "bedrooms",
+        component: BedRooms,
         data: {
-          breadcrumb: "Contact Info"
+          breadcrumb: "Bed Room Admissions",
         },
-        resolve: {
-          project: ContactinfoResolver
-        },
-        runGuardsAndResolvers: "always"
-      },
-      {
-        path: "projects/:hid/applications/:applicationNumber/position",
-        component: FindYourPositionDetailsComponent,
-        data: {
-          breadcrumb: "Waiting List"
-        },
-        resolve: {
-          project: FindYourPositionProjectResolver,
-          application: FindYourPositionApllicationResolver,
-          waitingLists: FindYourPositionWaitingListResolver
-        },
-        runGuardsAndResolvers: "always"
-      },
-      {
-        path: "projects/:hid/waitlist/bedrooms/:aptSize/:type",
-        component: BedRoomAdmissionsComponent,
-        data: {
-          breadcrumb: "Bed Room Admissions"
-        },
-        resolve: {
-          project: BedRoomAdmissioinsProjectResolver,
-          waitingLists: BedRoomAdmissionsApllicationResolver
-        },
-        runGuardsAndResolvers: "always"
+        children: [
+          {
+            path: ":hid/:aptSize/:type",
+            component: BedRoomAdmissionsComponent,
+            data: {
+              breadcrumb: "Bed Room Admissions",
+              breadcrumbIgnore : true
+            },
+            resolve: {
+              project: BedRoomAdmissioinsProjectResolver,
+              waitingLists: BedRoomAdmissionsApllicationResolver
+            },
+            runGuardsAndResolvers: "always"
+          },
+          {
+            path: "waitlist",
+            component: WaitingListComponent,
+            data: {
+              breadcrumb: "Waiting List",
+            },
+            children : [
+              {
+                path: ":hid/:applicationNumber/position",
+                component: FindYourPositionDetailsComponent,
+                data: {
+                  breadcrumb: "Waiting List",
+              breadcrumbIgnore: true
+                },
+                resolve: {
+                  project: FindYourPositionProjectResolver,
+                  application: FindYourPositionApllicationResolver,
+                  waitingLists: FindYourPositionWaitingListResolver
+                },
+                runGuardsAndResolvers: "always",
+                children: []
+              },
+              {
+                path: ":hid/:applicationNumber/contact/edit",
+                component: ContactInfoComponent,
+                data: {
+                  breadcrumb: "Contact Info"
+                },
+                resolve: {
+                  project: ContactinfoResolver
+                },
+                runGuardsAndResolvers: "always"
+              }
+            ]
+          },
+          
+        ]
       }
     ]
   }
@@ -140,7 +151,9 @@ const routes: Routes = [
     BedRoomAdmissionsComponent,
     FilterPipe,
     LiveAddressDirective,
-    PhoneMaskDirective
+    PhoneMaskDirective,
+    BedRooms,
+    WaitingListComponent
   ],
   imports: [
     BrowserModule,
@@ -162,7 +175,8 @@ const routes: Routes = [
     }),
     RouterModule.forChild(routes),
     AlertModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    ScrollingModule
   ],
   providers: [
     HomeResolver,

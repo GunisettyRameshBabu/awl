@@ -1,28 +1,10 @@
 <div [hidden]="hasChildren" class="row">
   <div class="col-xlg-8 col-lg-12 offset-xlg-2">
-    <!-- <div class="card">
-      <div class="card-body">
-        <p>Welcome to Automated Waiting List Home Page!!!</p>
-      </div>
-    </div> -->
     <div class="card">
       <div class="card-body">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-md-8 col-lg-8 col-sm-8 col-xsm-12">
-              <span *ngIf="totalItems > 0" style="padding-top:50px;color:grey;">
-                <strong>
-                  Showing {{ (pageNumber - 1) * itemsPerPage + 1 }} to
-                  {{
-                    pageNumber * itemsPerPage < totalItems
-                      ? pageNumber * itemsPerPage
-                      : totalItems
-                  }}
-                  of {{ totalItems | number: 0 }}
-                  {{ totalItems == 1 ? "Development" : "Developments" }}
-                </strong>
-              </span>
-            </div>
+            <div class="col-md-8 col-lg-8 col-sm-8 col-xsm-12"></div>
             <div class="col-md-4 col-lg-4 col-sm-4 col-xs-12">
               <div class="input-group">
                 <input
@@ -54,215 +36,103 @@
           </div>
           <div class="row">
             <div class="col-md-12">
-              <div class="table-responsive">
-                <div
-                  class="row animate-repeat my-5"
-                  *ngFor="let prj of projects"
+              <cdk-virtual-scroll-viewport
+                itemSize="100"
+                class="fact-scroll-viewport"
+              >
+              <div
+              class="row" style="padding-left: 20px;"
+              *cdkVirtualFor="let prj of dataSource"
+            >
+              <div class="col-12 ">
+                <h4>
+                  {{ prj.projectName }}
+                  <small>
+                    <button
+                      class="btn btn-link d-inline"
+                      
+                      (click)="showProjectDetails(prj.hid)"
+                      >details</button
+                    ></small
+                  >
+                </h4>
+              </div>
+              <div class="col-12 mb-2">
+                <span [hidden]="AddressLine2">
+                  {{ prj.projectAddress2 }}
+                </span>
+                <a
+                  href="https://www.google.com/maps/place/{{
+                    prj.projectAddress1
+                  }}+{{ prj.projectCity }}+NY+ {{ prj.projectZipCode }}/"
                 >
-                  <div class="col-12 ">
-                    <h4>
-                      {{ prj.projectName }}
-                      <small>
-                        <a
-                          class="d-inline"
-                          href="#"
-                          (click)="showProjectDetails(prj.hid)"
-                          >details</a
-                        ></small
-                      >
-                    </h4>
-                  </div>
-                  <div class="col-12 mb-2">
-                    <span [hidden]="AddressLine2">
-                      {{ prj.projectAddress2 }}
-                    </span>
+                  {{ prj.projectAddress1 }}, {{ prj.projectCity }}, NY
+                  {{ prj.projectZipCode }}</a
+                >
+              </div>
+              <div class="col-12">
+                <div aria-label="Toolbar with button groups">
+                  <div role="group" aria-label="First group">
                     <a
-                      href="https://www.google.com/maps/place/{{
-                        prj.projectAddress1
-                      }}+{{ prj.projectCity }}+NY+ {{ prj.projectZipCode }}/"
+                      type="button"
+                      href="javascript: void(0);"
+                      class="btn btn-secondary d-inline mr-3 my-2"
+                      *ngIf="prj.studioWaitList > 0"
+                      [routerLink]="['','bedrooms',prj.hid,0,'Admissions']"
                     >
-                      {{ prj.projectAddress1 }}, {{ prj.projectCity }}, NY
-                      {{ prj.projectZipCode }}</a
+                      Studio
+                    </a>
+                    <a
+                      type="button"
+                      href="javascript: void(0);"
+                      class="btn btn-secondary d-inline mr-3 my-2"
+                      *ngIf="prj.oneBedroomWaitList > 0"
+                      [routerLink]="['','bedrooms',prj.hid,1,'Admissions']"
                     >
-                  </div>
-                  <div class="col-12">
-                    <div aria-label="Toolbar with button groups">
-                      <div role="group" aria-label="First group">
-                        <a
-                          type="button"
-                          href="javascript: void(0);"
-                          class="btn btn-secondary d-inline mr-3 my-2"
-                          *ngIf="prj.studioWaitList > 0"
-                          routerLink="projects/{{
-                            prj.hid
-                          }}/waitlist/bedrooms/0/admissions"
-                        >
-                          Studio
-                        </a>
-                        <a
-                          type="button"
-                          href="javascript: void(0);"
-                          class="btn btn-secondary d-inline mr-3 my-2"
-                          *ngIf="prj.oneBedroomWaitList > 0"
-                          routerLink="projects/{{
-                            prj.hid
-                          }}/waitlist/bedrooms/1/admissions"
-                        >
-                          1 Bedroom
-                        </a>
-                        <a
-                          type="button"
-                          href="javascript: void(0);"
-                          class="btn btn-secondary d-inline mr-3 my-2"
-                          *ngIf="prj.twoBedroomWaitList > 0"
-                          routerLink="projects/{{
-                            prj.hid
-                          }}/waitlist/bedrooms/2/admissions"
-                        >
-                          2 Bedroom
-                        </a>
-                        <a
-                          type="button"
-                          href="javascript: void(0);"
-                          class="btn btn-secondary d-inline mr-3 my-2"
-                          *ngIf="prj.threeBedroomWaitList > 0"
-                          routerLink="projects/{{
-                            prj.hid
-                          }}/waitlist/bedrooms/3/admissions"
-                        >
-                          3 Bedroom
-                        </a>
-                        <a
-                          type="button"
-                          href="javascript: void(0);"
-                          class="btn btn-secondary d-inline mr-3 my-2"
-                          *ngIf="prj.fourBedroomWaitList > 0"
-                          routerLink="projects/{{
-                            prj.hid
-                          }}/waitlist/bedrooms/4/admissions"
-                        >
-                          4 Bedroom
-                        </a>
-                        <a
-                          type="button"
-                          href="javascript: void(0);"
-                          class="btn btn-secondary d-inline mr-3 my-2"
-                          *ngIf="prj.fiveBedroomWaitList > 0"
-                          routerLink="projects/{{
-                            prj.hid
-                          }}/waitlist/bedrooms/5/admissions"
-                        >
-                          5 Bedroom
-                        </a>
-                      </div>
-                    </div>
+                      1 Bedroom
+                    </a>
+                    <a
+                      type="button"
+                      href="javascript: void(0);"
+                      class="btn btn-secondary d-inline mr-3 my-2"
+                      *ngIf="prj.twoBedroomWaitList > 0"
+                      [routerLink]="['','bedrooms',prj.hid,2,'Admissions']"
+                    >
+                      2 Bedroom
+                    </a>
+                    <a
+                      type="button"
+                      href="javascript: void(0);"
+                      class="btn btn-secondary d-inline mr-3 my-2"
+                      *ngIf="prj.threeBedroomWaitList > 0"
+                      [routerLink]="['','bedrooms',prj.hid,3,'Admissions']"
+                    >
+                      3 Bedroom
+                    </a>
+                    <a
+                      type="button"
+                      href="javascript: void(0);"
+                      class="btn btn-secondary d-inline mr-3 my-2"
+                      *ngIf="prj.fourBedroomWaitList > 0"
+                      [routerLink]="['','bedrooms',prj.hid,4,'Admissions']"
+                    >
+                      4 Bedroom
+                    </a>
+                    <a
+                      type="button"
+                      href="javascript: void(0);"
+                      class="btn btn-secondary d-inline mr-3 my-2"
+                      *ngIf="prj.fiveBedroomWaitList > 0"
+                      [routerLink]="['','bedrooms',prj.hid,5,'Admissions']"
+                    >
+                      5 Bedroom
+                    </a>
                   </div>
                 </div>
-
-                <!--
-                          <div type="button" class="btn-group"   uib-dropdown dropdown-append-to-body id="rspbtn">
-                              <div ngbDropdown class="d-inline-block">
-                                  <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle "  id="dropdownBasic1" ngbDropdownToggle>
-                                      <i class="fa fa-cog fa-spin-hover" aria-hidden="true"></i>
-                                          <span class="fa fa-caret-down"></span>
-                                  </button>
-                          <ul ngbDropdownMenu class="dropdown-menu dropdown-menu-right font-sm" aria-labelledby="dropdownBasic1">
-                              <li class="dropdown-header">
-                                  <strong>WAITING LISTS</strong>
-                              </li>
-                              <li ngbDropdownItem *ngIf="prj.studioWaitList > 0">
-                                  <a href="projects/{{ prj.hid }}/waitlist/bedrooms/0/admissions">
-                                      <i class="fa fa-fw fa-angle-right hvr-grow"></i>
-                                          Studio
-                                      <span class="font-xs">({{ prj.studioWaitList }})</span>
-                                  </a>
-                              </li>
-                              <li ngbDropdownItem *ngIf="prj.oneBedroomWaitList > 0">
-                                  <a href="projects/{{ prj.hid }}/waitlist/bedrooms/1/admissions">
-                                      <i class="fa fa-fw fa-angle-right hvr-grow"></i>
-                                          1 Bedroom
-                                      <span class="font-xs">({{prj.oneBedroomWaitList }})</span>
-                                  </a>
-                              </li>
-                              <li ngbDropdownItem *ngIf="prj.twoBedroomWaitList > 0">
-                                  <a href="projects/{{ prj.hid }}/waitlist/bedrooms/2/admissions">
-                                      <i class="fa fa-fw fa-angle-right hvr-grow"></i>
-                                          2 Bedroom
-                                      <span class="font-xs ">({{ prj.twoBedroomWaitList }})</span>
-                                  </a>
-                              </li>
-                              <li ngbDropdownItem *ngIf="prj.threeBedroomWaitList > 0">
-                                  <a href="projects/{{ prj.hid }}/waitlist/bedrooms/3/admissions">
-                                      <i class="fa fa-fw fa-angle-right hvr-grow"></i>
-                                          3 Bedroom
-                                      <span class="font-xs">({{ prj.threeBedroomWaitList }})</span>
-                                  </a>
-                              </li>
-                              <li ngbDropdownItem *ngIf="prj.fourBedroomWaitList > 0">
-                                  <a href="projects/{{ prj.hid }}/waitlist/bedrooms/4/admissions">
-                                      <i class="fa fa-fw fa-angle-right hvr-grow"></i>
-                                          4 Bedroom
-                                      <span class="font-xs">({{ prj.fourBedroomWaitList }})</span>
-                                  </a>
-                              </li>
-                              <li ngbDropdownItem *ngIf="prj.fiveBedroomWaitList > 0">
-                                  <a href="projects/{{ prj.hid }}/waitlist/bedrooms/5/admissions">
-                                      <i class="fa fa-fw fa-angle-right hvr-grow"></i>
-                                          5 Bedroom
-                                      <span class="font-xs">({{ prj.fiveBedroomWaitList }})</span>
-                                  </a>
-                              </li>
-                              <li class="dropdown-divider"></li>
-                              <li>
-                                  <a ngbDropdownItem (click)="openModal(prj)" style="cursor:pointer">
-                                      <i class="fa fa-search fa-fw hvr-grow"></i>
-                                          Find your position
-                                  </a>
-                              </li>
-                              <li>
-                                  <a ngbDropdownItem [routerLink]="" (click)="updateContactInfo(prj)">
-                                      <i class="far fa-address-card fa-fw hvr-grow"></i>
-                                          Update contact info
-                                  </a>
-                              </li>
-                              <li class="dropdown-divider"></li>
-                              <li>
-                                  <a ngbDropdownItem href="#" (click)="showProjectDetails(prj.hid)">
-                                      <i class="fa fa-map-marker-alt fa-fw hvr-grow"></i>
-                                          Additional info
-                                  </a>
-                              </li>
-                          </ul>
-                              </div>
-                            </div>
-                          </td>
-                      </tr>
-                    </tbody>
-                    <tfoot>
-                      <tr>
-                        <td colspan="3 font-14 col-8 mt-4"> -->
-                <ul class="pagination no-margin justify-content-end">
-                  <div class="text-left ">
-                    <ngb-pagination
-                      *ngIf="totalItems > itemsPerPage"
-                      [(page)]="pageNumber"
-                      [pageSize]="itemsPerPage"
-                      [collectionSize]="totalItems"
-                      [maxSize]="7"
-                      [rotate]="true"
-                      [ellipses]="true"
-                      [boundaryLinks]="true"
-                      (pageChange)="pageChange($event)"
-                    >
-                    </ngb-pagination>
-                  </div>
-                </ul>
-                <!-- </td>
-                      </tr>
-                    </tfoot>
-                  </div>
-                </table> -->
               </div>
+            </div>
+              
+              </cdk-virtual-scroll-viewport>
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="!hasChildren">
   <ng-template #popContent>
     <app-change-application
       [applicationNumber]="application.applicationNumber"
@@ -20,7 +20,7 @@
             </div>
             <div id="rspupdnoteInfo" *ngIf="showNote">
                 <div id="UpdateNoteInfo" style="font-family:'ArialMT', 'Arial';" class="form-inline">
-                    <a [routerLink]="['','projects',project.hid,'applications',application.applicationNumber,'contact','edit']"
+                    <a [routerLink]="[ '','bedrooms','waitlist',project.hid,application.applicationNumber,'contact','edit']"
                         popover-trigger="'mouseenter'"><strong>Click here</strong></a> to submit a request to update
                     your
                     address and telephone numbers on file with a housing company. The housing company has the right to
@@ -60,7 +60,7 @@
                                     <span> {{ position.position }} out of
                                    
                                     </span> &nbsp;
-                                    <a [routerLink]="['','projects',project.hid,'waitlist','bedrooms', position.apartmentSize ,application.type]" >
+                                    <a [routerLink]="['','bedrooms',project.hid, position.apartmentSize ,application.type]" >
                                         {{ position.count }} </a>
                                 </td>
                                 <td>
@@ -158,3 +158,5 @@
         </div>
     </div>
 </div>
+
+

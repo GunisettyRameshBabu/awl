@@ -84,16 +84,19 @@ export class SecureLayoutComponent implements OnInit {
   generateBreadcrumbs(activatedRoute: ActivatedRoute) {
     // Check if the route has a breadcrumb label and is not set to ignore...
     if (activatedRoute.snapshot.data.hasOwnProperty("breadcrumb")) {
-      // Construct the breadcrumb url (each subsequent route will add to this)...
       this.breadcrumbsUrl +=
-        "/" +
-        activatedRoute.snapshot.url.map(segment => segment.path).join("/");
+      "/" +
+      activatedRoute.snapshot.url.map(segment => segment.path).join("/");
+      if (!activatedRoute.snapshot.data["breadcrumbIgnore"]) {
+       
 
-      // Push the breadcrumb data onto the array...
-      this.breadcrumbs.push({
-        label: activatedRoute.snapshot.data["breadcrumb"],
-        url: this.breadcrumbsUrl
-      });
+        // Push the breadcrumb data onto the array...
+        this.breadcrumbs.push({
+          label: activatedRoute.snapshot.data["breadcrumb"],
+          url: this.breadcrumbsUrl
+        });
+      }
+      // Construct the breadcrumb url (each subsequent route will add to this)...
     }
     // Loop through each child route and recursively generate breadcrumbs for each...
     activatedRoute.children.forEach(child => {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { trigger, state, style, animate, transition, keyframes } from '@angular/animations';
+import { filter } from 'rxjs/operators';
 
 enum queryFilterTypes {
   page = 'page',
@@ -45,6 +46,7 @@ export class BedRoomAdmissionsComponent implements OnInit {
     { id: 3, name: '3 Bedroom' },
     { id: 4, name: '4 Bedroom' },
     { id: 5, name: '5 Bedroom' }];
+  hasChildren: boolean;
   constructor(private route: ActivatedRoute, private naviageRoute: Router) {
     this.naviageRoute.routeReuseStrategy.shouldReuseRoute = () => {
       return false;
@@ -52,6 +54,11 @@ export class BedRoomAdmissionsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.hasChildren = false;
+    this.naviageRoute.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(event => {
+      this.hasChildren = this.route.children.length > 0;
+      console.log(this.hasChildren);
+    });
     this.pageNumber = 1;
     this.itemsPerPage = 25;
     this.showFilter = true;
@@ -90,6 +97,8 @@ export class BedRoomAdmissionsComponent implements OnInit {
     // Retrieve initial data from the resolver and map to local variables...
 
     this.mapData(this.route.snapshot.data);
+
+    
   }
 
   mapData(data) {
@@ -101,7 +110,7 @@ export class BedRoomAdmissionsComponent implements OnInit {
 
   applyFilter() {
     const params = { senior: this.senior, mobility: this.mobility };
-    this.naviageRoute.navigate(['projects/' + this.hid + '/waitlist/bedrooms/' + this.aptSize + '/' + this.applicationType],
+    this.naviageRoute.navigate(['bedrooms/' + this.hid  + "/" + this.aptSize + '/' + this.applicationType],
       { queryParams: params });
   }
 

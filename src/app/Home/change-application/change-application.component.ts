@@ -36,7 +36,7 @@ noResults;
   }
 
   changeApplication() {
-    this.router.navigate(['/projects/' + this.hid + '/applications/' + this.applicationNumber + '/position']);
+    this.router.navigate(['/bedrooms/waitlist/' + this.hid + '/' + this.applicationNumber + '/position']);
   }
 
   onItemClick(applicationNumber) {

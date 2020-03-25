@@ -12,7 +12,12 @@ import {
 } from "rxjs/operators";
 import { animate, style, transition, trigger } from "@angular/animations";
 import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
+import {
+  Router,
+  ActivatedRoute,
+  NavigationEnd,
+  ActivatedRouteSnapshot
+} from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { ProjectDetailsComponent } from "../Projectdetails/project-details.component";
 import {
@@ -29,14 +34,16 @@ import { DatePipe } from "@angular/common";
 import { ApiService } from "../app.service";
 import { SharedapiService } from "../shared/services/sharedapi.service";
 import { FindYourPositionComponent } from "./find-your-position/find-your-position.component";
-import { Observable } from "rxjs";
+import { Observable, BehaviorSubject, Subscription } from "rxjs";
+import { DataSource, CollectionViewer } from "@angular/cdk/collections";
+import { Home } from "./home.model";
+import { HomeService } from "./home.service";
 
 enum queryFilterTypes {
   search = "filter",
   pageNumber = "page",
   pageSize = "pageSize"
 }
-
 
 @Component({
   selector: "app-home",
@@ -60,6 +67,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   queryFilterTypes = queryFilterTypes;
   private hasChildren: boolean;
   projectSubscription;
+  dataSource: ProjectsDataSource;
 
   constructor(
     fb: FormBuilder,
@@ -69,12 +77,15 @@ export class HomeComponent implements OnInit, OnDestroy {
     private router: Router,
     private http: HttpClient,
     private route: ActivatedRoute,
-    private apiService: SharedapiService
+    private apiService: SharedapiService,
+    private homeService: HomeService
   ) {
     // Force new instance of component when reloading...
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
       return false;
     };
+
+    this.dataSource = new ProjectsDataSource(this.homeService, this.route);
   }
 
   ngOnInit() {
@@ -86,7 +97,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       });
     // Retrieve initial data from the resolver and map to local variables...
 
-    this.mapData(this.route.snapshot.data);
+    // this.mapData(this.route.snapshot.data);
 
     this.queryParamSubscription = this.route.queryParamMap.subscribe(
       queryParams => {
@@ -206,7 +217,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           backdrop: "static",
           keyboard: false,
           windowClass: "custom-width",
-          size: "xl"
+          size: "sm"
         });
         dialogRef.componentInstance.selectedProject = x;
       },
@@ -235,21 +246,21 @@ export class HomeComponent implements OnInit, OnDestroy {
       distinctUntilChanged(),
       // switchMap allows returning an observable rather than maps array
       switchMap(searchText =>
-        this.apiService
-          .getProjects(searchText)
-          .pipe(map((results: any) => {
-             let suggetions = [];
-             results.results.forEach(element => {
-               suggetions.push(element.projectName);
-               suggetions.push(element.projectCity);
-             });
-             return suggetions }))
+        this.apiService.getProjects(searchText).pipe(
+          map((results: any) => {
+            let suggetions = [];
+            results.results.forEach(element => {
+              suggetions.push(element.projectName);
+              suggetions.push(element.projectCity);
+            });
+            return suggetions;
+          })
+        )
       )
     );
   };
 
   updateContactInfo(prj) {
-    console.log(prj);
     this.router.navigate([
       "",
       "projects",
@@ -264,5 +275,69 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (event.keyCode === 13) {
       this.reload(true);
     }
+  }
+}
+
+export class ProjectsDataSource extends DataSource<Home | undefined> {
+  private cachedFacts = Array.from<Home>({ length: 0 });
+  private dataStream = new BehaviorSubject<(Home | undefined)[]>(
+    this.cachedFacts
+  );
+  private subscription = new Subscription();
+
+  private pageSize = 25;
+  private lastPage = 0;
+
+  constructor(
+    private homeService: HomeService,
+    private route: ActivatedRoute
+  ) {
+    super();
+
+    // Start with some data.
+    this._fetchFactPage();
+  }
+
+  connect(
+    collectionViewer: CollectionViewer
+  ): Observable<(Home | undefined)[] | ReadonlyArray<Home | undefined>> {
+    this.subscription.add(
+      collectionViewer.viewChange.subscribe(range => {
+        const currentPage = this._getPageForIndex(range.end);
+
+        if (currentPage && range) {
+          console.log(currentPage, this.lastPage);
+        }
+
+        if (currentPage > this.lastPage) {
+          this.lastPage = currentPage;
+          this._fetchFactPage();
+        }
+      })
+    );
+    return this.dataStream;
+  }
+
+  disconnect(collectionViewer: CollectionViewer): void {
+    this.subscription.unsubscribe();
+  }
+
+  private _fetchFactPage(): void {
+    let search = { pageNumber: this.lastPage, pageSize: this.pageSize };
+    // Check if search criteria was provided...
+    this.route.queryParams.subscribe(params => {
+      if (params[queryFilterTypes.search]) {
+        search[queryFilterTypes.search] = params[queryFilterTypes.search];
+      }
+    });
+
+    this.homeService.getProjects(search).subscribe(res => {
+      this.cachedFacts = this.cachedFacts.concat(res.results);
+      this.dataStream.next(this.cachedFacts);
+    });
+  }
+
+  private _getPageForIndex(i: number): number {
+    return Math.floor(i / this.pageSize);
   }
 }
