@@ -78,7 +78,7 @@ const routes: Routes = [
         },
         children: [
           {
-            path: ":hid/:aptSize/:type",
+            path: ":hid/:aptSize/:type", 
             component: BedRoomAdmissionsComponent,
             data: {
               breadcrumb: "Bed Room Admissions",
@@ -86,7 +86,7 @@ const routes: Routes = [
             },
             resolve: {
               project: BedRoomAdmissioinsProjectResolver,
-              waitingLists: BedRoomAdmissionsApllicationResolver
+             // waitingLists: BedRoomAdmissionsApllicationResolver
             },
             runGuardsAndResolvers: "always"
           },

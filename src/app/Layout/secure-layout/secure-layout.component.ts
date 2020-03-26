@@ -84,6 +84,7 @@ export class SecureLayoutComponent implements OnInit {
   generateBreadcrumbs(activatedRoute: ActivatedRoute) {
     // Check if the route has a breadcrumb label and is not set to ignore...
     if (activatedRoute.snapshot.data.hasOwnProperty("breadcrumb")) {
+      console.log(activatedRoute.snapshot.url);
       this.breadcrumbsUrl +=
       "/" +
       activatedRoute.snapshot.url.map(segment => segment.path).join("/");

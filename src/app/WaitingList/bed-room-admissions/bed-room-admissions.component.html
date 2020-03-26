@@ -71,51 +71,36 @@
     <div class="col-md-9 col-lg-9 col-sm-12 col-xs-12">
         <div class="card">
             <div class="card-body">
-                <span *ngIf="totalItems > 0" style="padding-top:50px;color:grey;">
-                    <strong> Showing {{ ((pageNumber - 1) * itemsPerPage) + 1 }} to
-                        {{ pageNumber * itemsPerPage < totalItems ? pageNumber * itemsPerPage : totalItems }}
-                        of {{ totalItems | number: 0 }}
-                        {{ totalItems == 1 ? 'Application' : 'Applications' }}
-                    </strong>
-                </span>
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">Position</th>
-                                <th scope="col">Application No.</th>
-                                <th scope="col">Application Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let app of waitList">
-                                <td>{{ app.index }}</td>
-                                <td>
-                                    <a  ng-hide="isRouteLoading" [routerLink]="['','bedrooms','waitlist',hid,app.applicationNumber , 'position']"
-                                        >
-                                        {{ app.applicationNumber }}
-                                    </a>
-                                </td>
-                                <td>{{ app.dateSubmitted }}</td>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="3">
-                                    <ul class="pagination no-margin justify-content-end">
-                                    <div class="text-right">                                    
-                                        <ngb-pagination  [(page)]="pageNumber" *ngIf="totalItems > 0 && totalItems > itemsPerPage"
-                                            [pageSize]="itemsPerPage" [collectionSize]="totalItems" [maxSize]="7"
-                                            [rotate]="true" [ellipses]="true" [boundaryLinks]="true" 
-                                            (pageChange)="pageChange($event)">
-                                        </ngb-pagination>
-                                    </div>
-                                </ul>
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
+                <cdk-virtual-scroll-viewport
+                itemSize="30"
+                class="fact-scroll-viewport"
+              >
+              <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Position</th>
+                            <th scope="col">Application No.</th>
+                            <th scope="col">Application Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *cdkVirtualFor="let app of dataSource">
+                            <td>{{ app.index }}</td>
+                            <td>
+                                <a  ng-hide="isRouteLoading" [routerLink]="['','bedrooms','waitlist',hid,app.applicationNumber , 'position']"
+                                    >
+                                    {{ app.applicationNumber }}
+                                </a>
+                            </td>
+                            <td>{{ app.dateSubmitted }}</td>
+                        </tr>
+                    </tbody>
+                   
+                </table>
+            </div>
+             
+              </cdk-virtual-scroll-viewport>
                
             </div>
         </div>

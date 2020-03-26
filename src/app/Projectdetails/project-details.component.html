@@ -1,12 +1,12 @@
-<div class="modal-header title-center " >
+<div class="modal-header title-center" >
   <h4 class="col-11 modal-title text-center">Development Details</h4>
   <button type="button" class="close" aria-describedby="modal-title" (click)="cancel()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body" style="margin:0 15px !important;">
-  <div class="row">
-    <div class="col-sm-12 col-xs-12 col-xl-12 col-md-12">
+  <div class="row" >
+    <div class="col-sm-12 col-xs-12 col-xl-12 col-md-12 ">
       <span class="h5 m-b-md " style="font-size:17px;"><strong>{{ selectedProject.projectName }}</strong><br /></span><br />
       <div class="font-bold" style="font-size:15px;">Management Office:</div>
       <address class="m-b-sm">
@@ -59,6 +59,43 @@
         <span>Five Bedroom</span>
       </dl>
     </div>
-    
+    <!-- <div class="col-sm-8 col-xs-12 col-xl-8 col-md-8" style="padding: 0; border: 1px">
+      <agm-map 
+      #agmMap 
+      [latitude]="location?.lat" 
+      [longitude]="location?.lng" 
+      [zoom]="8"
+      [maxZoom]="17"
+      [styles]="customStyle"
+      [fitBounds]="true" 
+      [clickableIcons]="false"
+      [fullscreenControl]="true" 
+      [streetViewControl]="true" 
+      [mapTypeControl]="true"
+      [fullscreenControl]="true"
+      [zoomControl]="mapControls"
+      style="height: 500px; width: 100%;" >
+        <agm-marker  [latitude]="location?.lat" [longitude]="location?.lng" [markerDraggable]="false" [agmFitBounds]="true"  >
+          <agm-info-window>
+            <div class="gm-style-iw ">
+              <div class="poi-info-window gm-style">
+                <div class="title full-width ">
+                  {{ selectedProject.projectName }}
+                </div>
+                <div class="address">
+                  <div class="address-line full-width">
+                    {{ selectedProject.projectAddress2 }}
+                  </div>
+                  <div class="address-line full-width">
+                    {{selectedProject.projectAddress1}}<br />
+                    {{selectedProject.projectCity}}, NY {{selectedProject.projectZipCode}}
+                  </div>
+                </div>   
+              </div>
+            </div>
+          </agm-info-window>
+        </agm-marker>
+      </agm-map>
+    </div> -->
   </div>
 </div>
