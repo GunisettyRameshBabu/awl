@@ -2,16 +2,7 @@ agm-map {
   height: 300px;
 }
 
-#locationField, #controls {
-  position: relative;
-  width: 480px;
-}
-#autocomplete {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 99%;
-}
+
 .label {
   text-align: right;
   font-weight: bold;
@@ -44,40 +35,12 @@ th, td {
 .fa-spin-hover:hover {
   animation: fa-spin 2s infinite linear;
 }
-#address {
-  border: 1px solid #000090;
-  background-color: #f0f0ff;
-  width: 480px;
-  padding-right: 2px;
-}
-#address td {
-  font-size: 10pt;
-}
-.field {
-  width: 99%;
-}
-.slimField {
-  width: 80px;
-}
-.wideField {
-  width: 200px;
-}
-#locationField {
-  height: 20px;
-  margin-bottom: 2px;
-}
-#srch{
-    width: 480px;
-}
-#header-search {
-  position: absolute;
-  left: 50%;
-  top: 50%;    
-  margin-top: -11px;
-  margin-left: -75px;
-  width: 150px;
-  height: 22px;
-}
+
+
+
+
+
+
 
 
 ::ng-deep .pac-container { 
@@ -97,38 +60,7 @@ th, td {
   padding-top: 10px !important;
 }
 
-.fact-item {
-  height: 100px;
-  display: flex;
 
-  
-}
-
-.fact-item .fact-date {
-  height: 100%;
-  min-width: 100px;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  font-size: 24pt;
-}
-
-.fact-item .fact-text {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-}
-
-cdk-virtual-scroll-viewport {
-  border: 1px solid black;
-}
-
-cdk-virtual-scroll-viewport li {
-  list-style: none;
-}
 
 
 @media (max-width: 768px) {
