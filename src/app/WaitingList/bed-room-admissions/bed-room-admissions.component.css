@@ -1,18 +1,17 @@
 .fact-scroll-viewport {
-    height: 650px;
-    width: 98%;
-    border: none;
-    overflow: none !important;
-    padding-top: 10px !important;
-  }
-  
+  height: 1200px;
+  width: 98%;
+  border: none;
+  overflow: none !important;
+  padding-top: 10px !important;
+}
 
-  
-  cdk-virtual-scroll-viewport {
-    border: 1px solid black;
-  }
-  
-  cdk-virtual-scroll-viewport li {
-    list-style: none;
-  }
-  
+
+
+cdk-virtual-scroll-viewport {
+  border: 1px solid black;
+}
+
+cdk-virtual-scroll-viewport li {
+  list-style: none;
+}

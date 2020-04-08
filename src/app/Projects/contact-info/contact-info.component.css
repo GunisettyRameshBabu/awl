@@ -1,49 +1,41 @@
 agm-map {
-    height: 300px;
-  }
-
-  .label {
-    text-align: right;
-    font-weight: bold;
-    width: 100px;
-    color: #303030;
-  }
-  .table th {
-    text-align-last: center;
-    } 
-    
-    .table td {
-      width: 90px;
-    }
-    th, td {
-      padding: 8px;
-      text-align: left;
-    }
-    table.YourClass tr:hover td {
-      background-color: rgb(242, 244, 247);
-      }
-      .container-fluid{
-        width: 100%;
-      }
-      .dropdown-menu {
-        font-size: 12px;
-        padding-left: 30%;
-        padding-right: 30%;
-      }
-  
-  
- 
-  
-  
-  
-  
-  
-  ::ng-deep .pac-container { 
-    z-index: 100000 !important; 
-  }
-
-  .has-error {
-    border-bottom: 2px solid red;
+  height: 300px;
 }
+
+.label {
+  text-align: right;
+  font-weight: bold;
+  width: 100px;
+  color: #303030;
+}
+.table th {
+  text-align-last: center;
+  } 
   
-  
+  .table td {
+    width: 90px;
+  }
+  th, td {
+    padding: 8px;
+    text-align: left;
+  }
+  table.YourClass tr:hover td {
+    background-color: rgb(242, 244, 247);
+    }
+    .container-fluid{
+      width: 100%;
+    }
+    .dropdown-menu {
+      font-size: 12px;
+      padding-left: 30%;
+      padding-right: 30%;
+    }
+
+::ng-deep .pac-container { 
+  z-index: 100000 !important; 
+}
+
+.has-error {
+  border-bottom: 2px solid red;
+}
+

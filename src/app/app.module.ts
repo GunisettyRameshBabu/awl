@@ -7,11 +7,7 @@ import { AppComponent } from "./app.component";
 import { SecureLayoutComponent } from "./Layout/secure-layout/secure-layout.component";
 import { Routes, RouterModule, PreloadAllModules } from "@angular/router";
 import { ToastrService, ToastrModule } from "ngx-toastr";
-import {
-  NgbDateAdapter,
-  NgbDateParserFormatter,
-  NgbModule
-} from "@ng-bootstrap/ng-bootstrap";
+import { NgbDateAdapter, NgbDateParserFormatter, NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import { HomeComponent } from "./Home/home.component";
 import { ProjectsService } from "./Projectdetails/project.service";
 import { DatePipe } from "@angular/common";

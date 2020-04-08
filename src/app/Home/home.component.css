@@ -2,7 +2,6 @@ agm-map {
   height: 300px;
 }
 
-
 .label {
   text-align: right;
   font-weight: bold;
@@ -27,22 +26,6 @@ th, td {
   width: 100%;
 }
 
-.dropdown-menu {
-  font-size: 12px;
-  padding-left: 30%;
-  padding-right: 30%;
-}
-.fa-spin-hover:hover {
-  animation: fa-spin 2s infinite linear;
-}
-
-
-
-
-
-
-
-
 ::ng-deep .pac-container { 
   z-index: 100000 !important; 
 }
@@ -53,15 +36,12 @@ th, td {
 }
 
 .fact-scroll-viewport {
-  height: 650px;
+  height: 1200px;
   width: 98%;
   border: none;
   overflow: none !important;
   padding-top: 10px !important;
 }
-
-
-
 
 @media (max-width: 768px) {
   .table-responsive .dropdown-menu {
