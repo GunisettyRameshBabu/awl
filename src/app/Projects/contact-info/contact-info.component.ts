@@ -4,7 +4,7 @@ import {
   FormControl,
   Validators,
   AbstractControl,
-  FormBuilder
+  FormBuilder,
 } from "@angular/forms";
 import { Router, ActivatedRoute } from "@angular/router";
 import { SharedapiService } from "src/app/shared/services/sharedapi.service";
@@ -18,7 +18,7 @@ import { Project } from "src/app/shared/models/project.model";
 @Component({
   selector: "app-contact-info",
   templateUrl: "./contact-info.component.html",
-  styleUrls: ["./contact-info.component.css"]
+  styleUrls: ["./contact-info.component.css"],
 })
 export class ContactInfoComponent implements OnInit {
   project: Project;
@@ -53,18 +53,18 @@ export class ContactInfoComponent implements OnInit {
       ApplicationNumber: new FormControl("", [
         Validators.required,
         Validators.maxLength(10),
-        Validators.pattern(/^[0-9]*$/)
+        Validators.pattern(/^[0-9]*$/),
       ]),
       FirstName: new FormControl("", [
         Validators.required,
         Validators.maxLength(20),
-        Validators.pattern(/^[a-z ,.'-]+$/i)
+        Validators.pattern(/^[a-z ,.'-]+$/i),
       ]),
       LastName: new FormControl("", [
         Validators.required,
         Validators.maxLength(20),
-        Validators.pattern(/^[a-z ,.'-]+$/i)
-      ])
+        Validators.pattern(/^[a-z ,.'-]+$/i),
+      ]),
     });
 
     this.contactForm2 = this.fb.group(
@@ -82,7 +82,7 @@ export class ContactInfoComponent implements OnInit {
         AddressLine2: new FormControl(""),
         City: new FormControl(""),
         State: new FormControl(""),
-        ZipCode: new FormControl("")
+        ZipCode: new FormControl(""),
       },
       { validator: this.checkPasswords }
     );
@@ -93,9 +93,9 @@ export class ContactInfoComponent implements OnInit {
         data.applicationNumber
       );
       this.applicationNumberExist =
-        (data.applicationNumber != undefined &&
+        data.applicationNumber != undefined &&
         data.applicationNumber != null &&
-        data.applicationNumber != "");
+        data.applicationNumber != "";
     });
   }
 
@@ -135,7 +135,7 @@ export class ContactInfoComponent implements OnInit {
         .findApplicant(this.hid, {
           applicationNumber: this.f.ApplicationNumber.value,
           firstName: this.f.FirstName.value,
-          lastName: this.f.LastName.value
+          lastName: this.f.LastName.value,
         })
         .subscribe(
           (data: Contact) => {
@@ -146,7 +146,7 @@ export class ContactInfoComponent implements OnInit {
             this.submitted = false;
             this.contactForm2.reset(this.contact);
           },
-          err => {
+          (err) => {
             this.verifying = false;
             if (err.status == "404") {
               this.alertService.error(
@@ -189,7 +189,7 @@ export class ContactInfoComponent implements OnInit {
         const dialogRef = this.modalService.open(ModalpopupComponent, {
           centered: true,
           backdrop: "static",
-          keyboard: false
+          keyboard: false,
         });
         dialogRef.componentInstance.title =
           '<span class="text-danger"><i class="fa fa-warning"></i> Warning</span>';
@@ -230,13 +230,12 @@ export class ContactInfoComponent implements OnInit {
     obj.zipCode = this.f2.ZipCode.value;
     obj.status = null;
     obj.sequence = 1;
-    console.log(obj);
     this.sharedApiService.saveContact(obj).subscribe(
       (contact: Contact) => {
         this.contact = contact;
         this.step = 3;
       },
-      err => {
+      (err) => {
         this.alertService.error(
           "Please review your selections and make the necessary changes"
         );

@@ -6,7 +6,7 @@ import {
   style,
   animate,
   transition,
-  keyframes
+  keyframes,
 } from "@angular/animations";
 import { filter } from "rxjs/operators";
 import { DataSource, CollectionViewer } from "@angular/cdk/collections";
@@ -20,7 +20,7 @@ enum queryFilterTypes {
   aptSize = "aptSize",
   type = "type",
   senior = "senior",
-  mobility = "mobility"
+  mobility = "mobility",
 }
 
 @Component({
@@ -32,9 +32,9 @@ enum queryFilterTypes {
       state("true", style({ opacity: 1 })),
       state("false", style({ opacity: 0 })),
       transition("0 => 1", animate(".5s")),
-      transition("1 => 0", animate(".9s"))
-    ])
-  ]
+      transition("1 => 0", animate(".9s")),
+    ]),
+  ],
 })
 export class BedRoomAdmissionsComponent implements OnInit {
   project;
@@ -54,11 +54,15 @@ export class BedRoomAdmissionsComponent implements OnInit {
     { id: 2, name: "2 Bedroom" },
     { id: 3, name: "3 Bedroom" },
     { id: 4, name: "4 Bedroom" },
-    { id: 5, name: "5 Bedroom" }
+    { id: 5, name: "5 Bedroom" },
   ];
   hasChildren: boolean;
   dataSource: BedRoomsDataSource;
-  constructor(private route: ActivatedRoute, private naviageRoute: Router, private bedRoomService: BedRoomsService ) {
+  constructor(
+    private route: ActivatedRoute,
+    private naviageRoute: Router,
+    private bedRoomService: BedRoomsService
+  ) {
     this.naviageRoute.routeReuseStrategy.shouldReuseRoute = () => {
       return false;
     };
@@ -69,10 +73,9 @@ export class BedRoomAdmissionsComponent implements OnInit {
   ngOnInit() {
     this.hasChildren = false;
     this.naviageRoute.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe(event => {
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event) => {
         this.hasChildren = this.route.children.length > 0;
-        console.log(this.hasChildren);
       });
     this.pageNumber = 1;
     this.itemsPerPage = 25;
@@ -84,7 +87,7 @@ export class BedRoomAdmissionsComponent implements OnInit {
     });
 
     // Loop through all query parameters for the route and set local variables...
-    this.route.snapshot.queryParamMap.keys.forEach(key => {
+    this.route.snapshot.queryParamMap.keys.forEach((key) => {
       switch (key) {
         case queryFilterTypes.page: {
           this.pageNumber = Number(this.route.snapshot.queryParamMap.get(key));
@@ -126,7 +129,12 @@ export class BedRoomAdmissionsComponent implements OnInit {
     const params = { senior: this.senior, mobility: this.mobility };
     this.naviageRoute.navigate(
       [
-        "bedrooms/" + this.hid + "/" + this.aptSize + "/" + this.applicationType
+        "bedrooms/" +
+          this.hid +
+          "/" +
+          this.aptSize +
+          "/" +
+          this.applicationType,
       ],
       { queryParams: params }
     );
@@ -195,11 +203,11 @@ export class BedRoomAdmissionsComponent implements OnInit {
           "/waitlist/bedrooms/" +
           this.aptSize +
           "/" +
-          this.applicationType
+          this.applicationType,
       ],
       {
         replaceUrl: true,
-        queryParams: queryParamaters
+        queryParams: queryParamaters,
       }
     );
   }
@@ -223,18 +231,15 @@ export class BedRoomsDataSource extends DataSource<any | undefined> {
 
     // Start with some data.
     this._fetchFactPage();
+    console.log(window.history);
   }
 
   connect(
     collectionViewer: CollectionViewer
   ): Observable<(any | undefined)[] | ReadonlyArray<any | undefined>> {
     this.subscription.add(
-      collectionViewer.viewChange.subscribe(range => {
+      collectionViewer.viewChange.subscribe((range) => {
         const currentPage = this._getPageForIndex(range.end);
-
-        if (currentPage && range) {
-          console.log(currentPage, this.lastPage);
-        }
 
         if (currentPage > this.lastPage) {
           this.lastPage = currentPage;
@@ -252,9 +257,7 @@ export class BedRoomsDataSource extends DataSource<any | undefined> {
   private _fetchFactPage(): void {
     let search = { pageNumber: this.lastPage, pageSize: this.pageSize };
     // Check if search criteria was provided...
-    this.route.queryParams.subscribe(params => {
-     
-
+    this.route.queryParams.subscribe((params) => {
       if (params[queryFilterTypes.senior]) {
         // Add Senior to the parameters...
         search[queryFilterTypes.senior] = params[queryFilterTypes.senior];
@@ -272,7 +275,7 @@ export class BedRoomsDataSource extends DataSource<any | undefined> {
       });
     });
 
-    this.bedRoomService.getProjects(search).subscribe(res => {
+    this.bedRoomService.getProjects(search).subscribe((res) => {
       this.cachedFacts = this.cachedFacts.concat(res.results);
       this.dataStream.next(this.cachedFacts);
     });

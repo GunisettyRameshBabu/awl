@@ -8,7 +8,7 @@ import {
   distinctUntilChanged,
   map,
   switchMap,
-  catchError
+  catchError,
 } from "rxjs/operators";
 import { animate, style, transition, trigger } from "@angular/animations";
 import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
@@ -16,7 +16,7 @@ import {
   Router,
   ActivatedRoute,
   NavigationEnd,
-  ActivatedRouteSnapshot
+  ActivatedRouteSnapshot,
 } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { ProjectDetailsComponent } from "../Projectdetails/project-details.component";
@@ -28,7 +28,7 @@ import {
   FormControl,
   ValidatorFn,
   AbstractControl,
-  NgForm
+  NgForm,
 } from "@angular/forms";
 import { DatePipe } from "@angular/common";
 import { ApiService } from "../app.service";
@@ -42,13 +42,13 @@ import { HomeService } from "./home.service";
 enum queryFilterTypes {
   search = "filter",
   pageNumber = "page",
-  pageSize = "pageSize"
+  pageSize = "pageSize",
 }
 
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
-  styleUrls: ["./home.component.css"]
+  styleUrls: ["./home.component.css"],
 })
 export class HomeComponent implements OnInit, OnDestroy {
   page = 1;
@@ -91,8 +91,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.hasChildren = false;
     this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe(event => {
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event) => {
         this.hasChildren = this.route.children.length > 0;
       });
     // Retrieve initial data from the resolver and map to local variables...
@@ -100,13 +100,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     // this.mapData(this.route.snapshot.data);
 
     this.queryParamSubscription = this.route.queryParamMap.subscribe(
-      queryParams => {
+      (queryParams) => {
         // Set default query filter values...
         this.searchFilter = "";
         this.pageNumber = 1;
 
         // Loop through all query parameters for the route and set local variables...
-        this.route.snapshot.queryParamMap.keys.forEach(key => {
+        this.route.snapshot.queryParamMap.keys.forEach((key) => {
           switch (key) {
             case queryFilterTypes.search: {
               this.searchFilter = this.route.snapshot.queryParamMap.get(key);
@@ -179,13 +179,13 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     this.router.navigate([this.route.routeConfig.path], {
       replaceUrl: true,
-      queryParams: queryParamaters
+      queryParams: queryParamaters,
     });
   }
 
   clearSearch() {
     this.searchFilter = "";
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       if (params[queryFilterTypes.search]) {
         // Screen has been filtered, reset...
         this.reload(true);
@@ -199,11 +199,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   openModal(prj) {
-    console.log(prj);
     const dialogRef = this.modalService.open(FindYourPositionComponent, {
       centered: true,
       backdrop: "static",
-      keyboard: false
+      keyboard: false,
     });
     dialogRef.componentInstance.projectName = prj.projectName;
     dialogRef.componentInstance.hid = prj.hid;
@@ -217,11 +216,11 @@ export class HomeComponent implements OnInit, OnDestroy {
           backdrop: "static",
           keyboard: false,
           windowClass: "custom-width",
-          size: "sm"
+          size: "sm",
         });
         dialogRef.componentInstance.selectedProject = x;
       },
-      err => {
+      (err) => {
         alert(JSON.stringify(err));
       }
     );
@@ -245,11 +244,11 @@ export class HomeComponent implements OnInit, OnDestroy {
       debounceTime(200),
       distinctUntilChanged(),
       // switchMap allows returning an observable rather than maps array
-      switchMap(searchText =>
+      switchMap((searchText) =>
         this.apiService.getProjects(searchText).pipe(
           map((results: any) => {
             let suggetions = [];
-            results.results.forEach(element => {
+            results.results.forEach((element) => {
               suggetions.push(element.projectName);
               suggetions.push(element.projectCity);
             });
@@ -267,7 +266,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       prj.hid,
       "applications",
       "contact",
-      "edit"
+      "edit",
     ]);
   }
 
@@ -288,10 +287,7 @@ export class ProjectsDataSource extends DataSource<Home | undefined> {
   private pageSize = 25;
   private lastPage = 0;
 
-  constructor(
-    private homeService: HomeService,
-    private route: ActivatedRoute
-  ) {
+  constructor(private homeService: HomeService, private route: ActivatedRoute) {
     super();
 
     // Start with some data.
@@ -302,12 +298,8 @@ export class ProjectsDataSource extends DataSource<Home | undefined> {
     collectionViewer: CollectionViewer
   ): Observable<(Home | undefined)[] | ReadonlyArray<Home | undefined>> {
     this.subscription.add(
-      collectionViewer.viewChange.subscribe(range => {
+      collectionViewer.viewChange.subscribe((range) => {
         const currentPage = this._getPageForIndex(range.end);
-
-        if (currentPage && range) {
-          console.log(currentPage, this.lastPage);
-        }
 
         if (currentPage > this.lastPage) {
           this.lastPage = currentPage;
@@ -325,13 +317,13 @@ export class ProjectsDataSource extends DataSource<Home | undefined> {
   private _fetchFactPage(): void {
     let search = { pageNumber: this.lastPage, pageSize: this.pageSize };
     // Check if search criteria was provided...
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       if (params[queryFilterTypes.search]) {
         search[queryFilterTypes.search] = params[queryFilterTypes.search];
       }
     });
 
-    this.homeService.getProjects(search).subscribe(res => {
+    this.homeService.getProjects(search).subscribe((res) => {
       this.cachedFacts = this.cachedFacts.concat(res.results);
       this.dataStream.next(this.cachedFacts);
     });

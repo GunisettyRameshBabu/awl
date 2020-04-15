@@ -1,68 +1,70 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ProjectsService } from './project.service';
+import { Component, Input, OnInit } from "@angular/core";
+import { ProjectsService } from "./project.service";
 // import {Project} from "../models";
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Project } from '../shared/models/project.model';
-import { GeocodeService } from '../shared/services/geocode.service';
-import { RouterModule, Routes } from '@angular/router';
+import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { Project } from "../shared/models/project.model";
+import { GeocodeService } from "../shared/services/geocode.service";
+import { RouterModule, Routes } from "@angular/router";
 
-@Component(
-  {
-    templateUrl: './project-details.component.html'
-  }
-)
+@Component({
+  templateUrl: "./project-details.component.html",
+})
 export class ProjectDetailsComponent implements OnInit {
   @Input() selectedProject: Project;
-  
+
   public customStyle = [
     {
-      featureType: 'poi.business',
+      featureType: "poi.business",
       stylers: [
         {
-          visibility: 'off'
-        }
-      ]
+          visibility: "off",
+        },
+      ],
     },
     {
-      featureType: 'road',
-      elementType: 'labels.icon',
+      featureType: "road",
+      elementType: "labels.icon",
       stylers: [
         {
-          visibility: 'off'
-        }
-      ]
+          visibility: "off",
+        },
+      ],
     },
     {
-      featureType: 'transit',
+      featureType: "transit",
       stylers: [
         {
-          visibility: 'off'
-        }
-      ]
-    }
+          visibility: "off",
+        },
+      ],
+    },
   ];
   address: string;
   location: GoogleLocation;
   loading = false;
-  constructor(private projectService: ProjectsService,
+  constructor(
+    private projectService: ProjectsService,
     private modalRef: NgbActiveModal,
-    private geocodeService: GeocodeService) {
+    private geocodeService: GeocodeService
+  ) {}
+
+  ngOnInit() {
+    if (this.selectedProject) {
+      this.loading = true;
+      this.address =
+        this.selectedProject.projectAddress1 +
+        " " +
+        this.selectedProject.projectCity +
+        " NY " +
+        this.selectedProject.projectZipCode;
+      this.addressToCoordinates();
     }
-    
-    ngOnInit() {
-      if (this.selectedProject) {
-        this.loading = true;
-        this.address = this.selectedProject.projectAddress1 + ' ' +
-          this.selectedProject.projectCity + ' NY ' + this.selectedProject.projectZipCode;
-        this.addressToCoordinates();
-      }
-    }
+  }
 
   cancel() {
-
     this.selectedProject = null;
-    this.address = '';
-    this.modalRef.dismiss('cancel');
+    this.address = "";
+    this.modalRef.dismiss("cancel");
   }
 
   mapInitialized(map) {
@@ -72,19 +74,21 @@ export class ProjectDetailsComponent implements OnInit {
     }, 100);
   }
 
-addressToCoordinates() {
-  this.geocodeService.geocodeAddress(this.address)
-    .subscribe((location: GoogleLocation) => {
-      this.location = location;
-      console.log(location);
-      this.loading = false;
-    } , (err) => { this.loading = false; console.log(err); }
+  addressToCoordinates() {
+    this.geocodeService.geocodeAddress(this.address).subscribe(
+      (location: GoogleLocation) => {
+        this.location = location;
+        this.loading = false;
+      },
+      (err) => {
+        this.loading = false;
+        console.log(err);
+      }
     );
-}
+  }
 }
 
 export interface GoogleLocation {
   lat: number;
   lng: number;
 }
-
