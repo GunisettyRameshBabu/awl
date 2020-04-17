@@ -143,5 +143,6 @@ export class SecureLayoutComponent implements OnInit, AfterViewInit {
       window.scroll(0, 0);
       // this.cd.detectChanges();
     });
+    this.cd.detectChanges();
   }
 }

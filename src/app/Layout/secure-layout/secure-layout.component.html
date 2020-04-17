@@ -62,11 +62,15 @@
             *ngFor="let breadcrumb of breadcrumbs; let i = index"
           >
             <a
+              *ngIf="i < breadcrumbs.length - 1"
               [routerLink]="breadcrumb.url"
               class="dl"
               [innerHTML]="breadcrumb.label"
             >
             </a>
+            <span *ngIf="i == breadcrumbs.length - 1">{{
+              breadcrumb.label
+            }}</span>
             <i
               *ngIf="i < breadcrumbs.length - 1"
               class="fas fa-angle-right m-l-10"
