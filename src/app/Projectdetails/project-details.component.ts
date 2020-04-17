@@ -82,7 +82,6 @@ export class ProjectDetailsComponent implements OnInit {
       },
       (err) => {
         this.loading = false;
-        console.log(err);
       }
     );
   }

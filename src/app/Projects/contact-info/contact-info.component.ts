@@ -14,6 +14,7 @@ import { ModalpopupComponent } from "src/app/shared/modalpopup/modalpopup.compon
 import { Contact } from "src/app/shared/models/contact.model";
 import { map } from "rxjs/operators";
 import { Project } from "src/app/shared/models/project.model";
+import { BreadcrumbService } from "src/app/breadcrumb.service";
 
 @Component({
   selector: "app-contact-info",
@@ -38,12 +39,25 @@ export class ContactInfoComponent implements OnInit {
     private sharedApiService: SharedapiService,
     private alertService: AlertService,
     private fb: FormBuilder,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private bredcrumbService: BreadcrumbService
   ) {}
 
   ngOnInit() {
     // Retrieve initial data from the resolver and map to local variables...
-
+    if (this.route.children.length == 0) {
+      this.route.params.subscribe((data: any) => {
+        this.bredcrumbService.addBreadCrumb({
+          label: "Contact Info",
+          url:
+            "/bedrooms/waitlist/" +
+            data["hid"] +
+            "/" +
+            data["applicationNumber"] +
+            "/contact/edit",
+        });
+      });
+    }
     this.mapData(this.route.snapshot.data);
     this.step = 1;
     this.verifying = false;

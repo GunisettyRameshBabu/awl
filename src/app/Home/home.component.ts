@@ -38,6 +38,7 @@ import { Observable, BehaviorSubject, Subscription } from "rxjs";
 import { DataSource, CollectionViewer } from "@angular/cdk/collections";
 import { Home } from "./home.model";
 import { HomeService } from "./home.service";
+import { BreadcrumbService } from "../breadcrumb.service";
 
 enum queryFilterTypes {
   search = "filter",
@@ -78,12 +79,17 @@ export class HomeComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private route: ActivatedRoute,
     private apiService: SharedapiService,
-    private homeService: HomeService
+    private homeService: HomeService,
+    private breadcrumbService: BreadcrumbService,
+    private activatedRoute: ActivatedRoute
   ) {
     // Force new instance of component when reloading...
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
       return false;
     };
+    if (this.activatedRoute.children.length == 0) {
+      this.breadcrumbService.addBreadCrumb({ label: "Home", url: "" });
+    }
 
     this.dataSource = new ProjectsDataSource(this.homeService, this.route);
   }

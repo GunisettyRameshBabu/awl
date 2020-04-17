@@ -1,7 +1,13 @@
 <div class="sidenav" *ngIf="_opened">
   <ul style="list-style: none;">
     <li
-      style="float: right; padding-right: 20px;font-size: 20px;color: white; cursor: pointer;"
+      style="
+        float: right;
+        padding-right: 20px;
+        font-size: 20px;
+        color: white;
+        cursor: pointer;
+      "
       (click)="_toggleSidebar()"
     >
       x
@@ -56,7 +62,7 @@
             *ngFor="let breadcrumb of breadcrumbs; let i = index"
           >
             <a
-              [routerLink]="[breadcrumb.url]"
+              [routerLink]="breadcrumb.url"
               class="dl"
               [innerHTML]="breadcrumb.label"
             >

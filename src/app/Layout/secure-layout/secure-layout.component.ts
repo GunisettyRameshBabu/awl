@@ -1,4 +1,9 @@
-import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  ChangeDetectorRef,
+  AfterViewInit,
+} from "@angular/core";
 import {
   ActivatedRoute,
   NavigationEnd,
@@ -13,6 +18,7 @@ import { filter } from "rxjs/operators";
 import { HttpOverlaySpinnerService } from "src/app/Shared/spinners/http-overlay-spinner/http-overlay-spinner.service";
 import { RouterOverlaySpinnerService } from "src/app/Shared/spinners/router-overlay-spinner/router-overlay-spinner.service";
 import { ToastrService } from "ngx-toastr";
+import { BreadcrumbService } from "src/app/breadcrumb.service";
 declare var jQuery: any;
 declare var $: any;
 
@@ -21,7 +27,7 @@ declare var $: any;
   templateUrl: "./secure-layout.component.html",
   styleUrls: ["./secure-layout.component.css"],
 })
-export class SecureLayoutComponent implements OnInit {
+export class SecureLayoutComponent implements OnInit, AfterViewInit {
   breadcrumbs: Array<any>;
   breadcrumbsUrl;
   currentPage;
@@ -37,30 +43,35 @@ export class SecureLayoutComponent implements OnInit {
     private httpOverlaySpinnerService: HttpOverlaySpinnerService,
     private routerOverlaySpinnerService: RouterOverlaySpinnerService,
     private toastr: ToastrService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private breadcrumbService: BreadcrumbService
   ) {
     this.currentRoute = router.url.toLowerCase();
 
     // Clear existing breadcrumb data...
     this.breadcrumbs = [];
     this.breadcrumbsUrl = "";
-    this.generateBreadcrumbs(this.activatedRoute.root);
+    // this.generateBreadcrumbs(this.activatedRoute.root);
   }
 
   ngOnInit() {
     $(".topbar").stick_in_parent({});
 
-    // Subscribe to the NavigationEnd event...
-    this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe((event) => {
-        // Generate breadcrumbs for the current route...
-        this.generateBreadcrumbs(this.activatedRoute.root);
+    // // Subscribe to the NavigationEnd event...
+    // this.router.events
+    //   .pipe(filter((event) => event instanceof NavigationEnd))
+    //   .subscribe((event: any) => {
+    //     // Generate breadcrumbs for the current route...
+    //     this.generateBreadcrumbs(this.activatedRoute.root);
 
-        // Pop the last breadcrumb (current page) off the array and store in variable. We'll show
-        // this separately from the other breadcrumbs...
-        this.currentPage = this.breadcrumbs.pop().label;
-      });
+    //     // Pop the last breadcrumb (current page) off the array and store in variable. We'll show
+    //     // this separately from the other breadcrumbs...
+    //     // this.currentPage = this.breadcrumbs.pop().label;
+    //   });
+
+    this.breadcrumbService.breadcrumbs.subscribe((data: any) => {
+      this.breadcrumbs = data;
+    });
 
     // Monitor changes to the state (visible/hidden) of the HTTP Overlay Spinner...
     this.httpOverlaySpinnerService.spinnerState.subscribe((state: boolean) => {
@@ -76,6 +87,8 @@ export class SecureLayoutComponent implements OnInit {
       }
     );
   }
+
+  ngAfterContentInit(): void {}
 
   _toggleSidebar() {
     this._opened = !this._opened;

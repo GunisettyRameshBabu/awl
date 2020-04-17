@@ -12,6 +12,8 @@ import { filter } from "rxjs/operators";
 import { DataSource, CollectionViewer } from "@angular/cdk/collections";
 import { BehaviorSubject, Subscription, Observable } from "rxjs";
 import { BedRoomsService } from "./bed-room-admissions.service";
+import { BreadcrumbService } from "src/app/breadcrumb.service";
+import { connectableObservableDescriptor } from "rxjs/internal/observable/ConnectableObservable";
 
 enum queryFilterTypes {
   page = "page",
@@ -61,7 +63,8 @@ export class BedRoomAdmissionsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private naviageRoute: Router,
-    private bedRoomService: BedRoomsService
+    private bedRoomService: BedRoomsService,
+    private bredcrumbService: BreadcrumbService
   ) {
     this.naviageRoute.routeReuseStrategy.shouldReuseRoute = () => {
       return false;
@@ -74,7 +77,7 @@ export class BedRoomAdmissionsComponent implements OnInit {
     this.hasChildren = false;
     this.naviageRoute.events
       .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe((event) => {
+      .subscribe((event: any) => {
         this.hasChildren = this.route.children.length > 0;
       });
     this.pageNumber = 1;
@@ -116,6 +119,28 @@ export class BedRoomAdmissionsComponent implements OnInit {
     // Retrieve initial data from the resolver and map to local variables...
 
     this.mapData(this.route.snapshot.data);
+
+    if (this.route.children.length == 0) {
+      let queryParamaters = "?";
+      if (this.mobility != undefined) {
+        queryParamaters += "mobility=" + this.mobility;
+      }
+      if (this.senior != undefined) {
+        queryParamaters +=
+          (queryParamaters.length > 1 ? "&" : "") + "senior=" + this.senior;
+      }
+      this.bredcrumbService.addBreadCrumb({
+        label: "Bed Rooms",
+        url:
+          "/bedrooms/" +
+          this.hid +
+          "/" +
+          this.aptSize +
+          "/" +
+          this.applicationType +
+          (queryParamaters.length > 1 ? queryParamaters : ""),
+      });
+    }
   }
 
   mapData(data) {
@@ -231,7 +256,6 @@ export class BedRoomsDataSource extends DataSource<any | undefined> {
 
     // Start with some data.
     this._fetchFactPage();
-    console.log(window.history);
   }
 
   connect(

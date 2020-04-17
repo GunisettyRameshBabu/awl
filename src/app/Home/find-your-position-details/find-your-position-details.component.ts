@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
 import { filter } from "rxjs/operators";
+import { BreadcrumbService } from "src/app/breadcrumb.service";
 
 @Component({
   selector: "app-find-your-position-details",
@@ -13,11 +14,29 @@ export class FindYourPositionDetailsComponent implements OnInit {
   waitingLists: any[];
   showNote;
   hasChildren: boolean;
-  constructor(private router: Router, private route: ActivatedRoute) {
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private bredcrumbService: BreadcrumbService
+  ) {
     // Force new instance of component when reloading...
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
       return false;
     };
+
+    if (this.route.children.length == 0) {
+      this.route.params.subscribe((data: any) => {
+        this.bredcrumbService.addBreadCrumb({
+          label: "Wait List",
+          url:
+            "/bedrooms/waitlist/" +
+            data["hid"] +
+            "/" +
+            data["applicationNumber"] +
+            "/position",
+        });
+      });
+    }
   }
 
   ngOnInit() {
