@@ -12,8 +12,9 @@ export class BreadcrumbService {
 
   public addBreadCrumb(item: { label: string; url: string }) {
     let items = this.breadcrumbs.getValue();
-
-    if (
+    if (items.length == 0) {
+      this.breadcrumbs.next([{ url: "", label: "Home" }, item]);
+    } else if (
       items.filter((x) => x.label == item.label || x.url == item.url).length ==
       0
     ) {
