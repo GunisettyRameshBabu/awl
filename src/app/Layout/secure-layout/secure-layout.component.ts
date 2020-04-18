@@ -71,6 +71,7 @@ export class SecureLayoutComponent implements OnInit, AfterViewInit {
 
     this.breadcrumbService.breadcrumbs.subscribe((data: any) => {
       this.breadcrumbs = data;
+      console.log(this.breadcrumbs);
     });
 
     // Monitor changes to the state (visible/hidden) of the HTTP Overlay Spinner...

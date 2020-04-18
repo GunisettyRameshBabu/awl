@@ -64,6 +64,7 @@
             <a
               *ngIf="i < breadcrumbs.length - 1"
               [routerLink]="breadcrumb.url"
+              [queryParams]="breadcrumb.queryParams"
               class="dl"
               [innerHTML]="breadcrumb.label"
             >

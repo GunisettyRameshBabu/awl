@@ -105,12 +105,12 @@ export class BedRoomAdmissionsComponent implements OnInit {
         }
 
         case queryFilterTypes.senior: {
-          this.senior = this.route.snapshot.queryParamMap.get(key);
+          this.senior = this.route.snapshot.queryParamMap.get(key) == "true";
           break;
         }
 
         case queryFilterTypes.mobility: {
-          this.mobility = this.route.snapshot.queryParamMap.get(key);
+          this.mobility = this.route.snapshot.queryParamMap.get(key) == "true";
           break;
         }
       }
@@ -121,13 +121,13 @@ export class BedRoomAdmissionsComponent implements OnInit {
     this.mapData(this.route.snapshot.data);
 
     if (this.route.children.length == 0) {
-      let queryParamaters = "?";
+      const params = {};
       if (this.mobility != undefined) {
-        queryParamaters += "mobility=" + this.mobility;
+        params["mobility"] = this.mobility;
       }
+
       if (this.senior != undefined) {
-        queryParamaters +=
-          (queryParamaters.length > 1 ? "&" : "") + "senior=" + this.senior;
+        params["senior"] = this.senior;
       }
       this.bredcrumbService.addBreadCrumb({
         label: "Bed Rooms",
@@ -137,8 +137,8 @@ export class BedRoomAdmissionsComponent implements OnInit {
           "/" +
           this.aptSize +
           "/" +
-          this.applicationType +
-          (queryParamaters.length > 1 ? queryParamaters : ""),
+          this.applicationType,
+        queryParams: params,
       });
     }
   }
