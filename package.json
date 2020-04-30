@@ -27,7 +27,7 @@
     "bootstrap": "^4.4.1",
     "font-awesome": "^4.7.0",
     "googlemaps": "^1.12.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "ng-bootstrap": "^1.6.3",
     "ng-sidebar": "^9.2.0",
     "ngx-spinner": "^8.1.0",
